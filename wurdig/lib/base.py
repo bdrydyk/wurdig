@@ -9,6 +9,8 @@ import wurdig.lib.helpers as h
 from pylons.controllers import WSGIController
 from pylons.templating import render_mako as render
 from wurdig.model import meta
+from wurdig.model import Session
+import wurdig.model as model
 
 class Cleanup(formencode.FancyValidator):
     def _to_python(self, value, state):
@@ -33,4 +35,4 @@ class BaseController(WSGIController):
         try:
             return WSGIController.__call__(self, environ, start_response)
         finally:
-            meta.Session.remove()
+            Session.remove()

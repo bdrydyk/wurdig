@@ -20,3 +20,5 @@ from wurdig.lib.mdown import *
 from wurdig.lib.tag import cloud, post_tags
 from wurdig.lib.tidy_helper import *
 from wurdig.lib.utils_helper import *
+from webhelpers.html.tags import stylesheet_link
+from webhelpers.html.tags import javascript_link

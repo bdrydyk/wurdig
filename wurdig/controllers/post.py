@@ -21,6 +21,7 @@ from wurdig.lib.base import BaseController, Cleanup, ConstructSlug, render
 
 log = logging.getLogger(__name__)
 
+
 class UniqueSlug(formencode.FancyValidator):
     messages = {
         'invalid': 'Slug must be unique'
@@ -314,6 +315,8 @@ class PostController(BaseController):
         return render('/derived/post/list.html')
     
     @h.auth.authorize(h.auth.is_valid_user)
+    
+    
     def delete_confirm(self, id=None):
         if id is None:
             abort(404)
@@ -343,3 +346,8 @@ class PostController(BaseController):
             session['flash'] = 'Post successfully deleted.'
             session.save()
             return redirect_to(controller='post', action='list')
+
+    def form(self, id=None):
+        """docstring for form"""
+        
+        return render('/movie.mako')

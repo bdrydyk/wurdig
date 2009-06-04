@@ -10,6 +10,10 @@ import wurdig.lib.app_globals as app_globals
 import wurdig.lib.helpers
 from wurdig.config.routing import make_map
 from wurdig.model import init_model
+import wurdig.model as model
+from sqlalchemy import engine_from_config
+import elixir
+
 
 def load_environment(global_conf, app_conf):
     """Configure the Pylons environment via the ``pylons.config``
@@ -38,9 +42,18 @@ def load_environment(global_conf, app_conf):
         input_encoding='utf-8', default_filters=['escape'],
         imports=['from webhelpers.html import escape'])
 
-    # Setup the SQLAlchemy database engine
-    engine = engine_from_config(config, 'sqlalchemy.')
-    init_model(engine)
+    # Setup Elixir
+    # note: in this example, I'm leaving connect_args empty, fill in what is right
+    # for your app.
+    config['pylons.app_globals'].sa_engine = \
+        engine_from_config(config, 'sqlalchemy.',
+                           connect_args={}, pool_recycle=90)
+    elixir.bind = config['pylons.app_globals'].sa_engine
+    model.metadata.bind = config['pylons.app_globals'].sa_engine
+    elixir.setup_all()
+
+    
 
     # CONFIGURATION OPTIONS HERE (note: all config options will override
     # any Pylons config options)
+    

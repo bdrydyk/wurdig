@@ -24,7 +24,20 @@
     % endif
 </%def>
 
+
+
+
+
+
+<div class="entry entry-1">
+
 <%def name="display_post(post)">
+
+
+
+
+</div>
+<div class="entrytitle">
     <h2>
         <%
             post_link = h.link_to(
@@ -38,8 +51,12 @@
         %>
         ${post_link % post.title}
     </h2>
+</div>
+
     <p class="wurdig-entry-date">
-        ${post.posted_on.strftime('%B %d, %Y')},
+     <h3>   ${post.posted_on.strftime('%B %d, %Y')}, </h3>
+     <div class="commentsblock">
+     
         <span class="wurdig-entry-comments">
             % if len(post.comments):
                 ${h.link_to(
@@ -63,9 +80,10 @@
                 )}
             % endif
         </span>
+        </div>
     </p>
     <div class="wurdig-entry">
-        <div class="wurdig-entry-content">
+        <div class="entrybody">
             
             % if '<!--more-->' in post.content:
                 ${h.literal(h.chop_at(post.content, '<!--more-->'))}
@@ -74,7 +92,7 @@
                 ${h.literal(post.content)}
             % endif
             
-            <p class="wurdig-entry-meta">
+            <div class="entrymeta">
                 ${tag_list(post.tags)}
                                 
                 % if h.auth.authorized(h.auth.is_valid_user):
@@ -85,8 +103,14 @@
                             h.url_for(controller='post', action='edit', id=unicode(post.id))
                         )}
                     </span>
-                % endif            
-            </p>
+                % endif  
+                <div class="postinfo"> 
+                    <div class="postedby">Posted by Test User</div> 
+                    <div class="filedto">Filed in <a href="http://demo.ifelse.co.uk/?cat=1" title="View all posts in Uncategorized" rel="category tag">Uncategorized</a> </div>        
+            </div>
         </div>
     </div>
 </%def>
+
+</div>
+

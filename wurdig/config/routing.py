@@ -20,6 +20,8 @@ def make_map():
 
     # CUSTOM ROUTES HERE
     map.connect('/', controller='post', action='home')
+    map.connect('/admin/', controller='admin', action='home')
+    map.connect('/movie/', controller='movie', action='index')
     
     map.connect('/feeds/', 
                 controller='post', 

@@ -24,17 +24,19 @@
 </%def>
 
 <%def name="css()">
-    <link href="${h.url_for('/css/yui-2.7.0.css')}" media="screen, projection" rel="stylesheet" type="text/css">
-    <link href="${h.url_for('/css/base.css')}" media="screen, projection" rel="stylesheet" type="text/css">
-    <link href="${h.url_for('/css/print.css')}" media="print" rel="stylesheet" type="text/css">
+${h.stylesheet_link('/css/yui-2.7.0.css')}
+${h.stylesheet_link('/css/style-simpla.css')}
+${h.stylesheet_link('/css/print.css', media='print')}
 </%def>
 
 <%def name="header()">
+<div id="header">
     <div><a id="skip" href="#yui-main">Jump to Content</a></div>
     <h1><a href="${h.url_for(controller='post', action='home')}" title="Home">${title()}</a></h1>
     % if h.wurdig_use_subtitle():
-        <p class="wurdig-tagline">${h.wurdig_subtitle()}</p>
+        <p class="description">${h.wurdig_subtitle()}</p>
     % endif
+</div>
 </%def>
 
 <%def name="random_header_img()">
@@ -46,8 +48,6 @@
 </%def>
 
 <%def name="primary_nav(loc=None)">
-    <div id="wurdig-primary-nav">
-        <ul role="navigation">
             <%
                 (n_home, n_about, n_teaching, wurdig_active) = (None, None, None, 'wurdig-active')
                 if loc == 'home':
@@ -95,8 +95,6 @@
                     </a>
                 </li>
             % endif
-        </ul>
-    </div>
 </%def>
 
 <%def name="search_form()">
@@ -118,7 +116,7 @@
 
 <%def name="subscribe()">
     <div id="wurdig-subscribe">
-        <h4>Feeds</h4>
+        <h2>Feeds</h2>
         <ul>
             <li>
                 % if h.wurdig_use_externalposts_feed():
@@ -173,18 +171,9 @@
 
 <%def name="blogroll()">
     <div id="wurdig-blogroll" class="wurdig-secondary-list">
-        <h4>Blogroll</h4>
+        <h2>Blogroll</h2>
         <ul>
             <li><a href="http://www.456bereastreet.com/" rel="external" title="456 Berea Street">456 Berea Street</a></li>
-            <li><a href="http://benramsey.com/" rel="external" title="Ben Ramsey">Ben Ramsey</a></li>
-            <li><a href="http://jchrisa.net" rel="external" title="Daytime Running Lights">Daytime Running Lights</a></li>
-            <li><a href="http://www.eflorenzano.com" rel="external" title="Eric Florenzano">Eric Florenzano</a></li>
-            <li><a href="http://blog.ianbicking.org/" rel="external" title="Ian Bicking">Ian Bicking</a></li>
-            <li><a href="http://shiflett.org/" rel="external" title="Chris Shiflett">Chris Shiflett</a></li>
-            <li><a href="http://simonwillison.net/" rel="external" title="Simon Willison">Simon Willison</a></li>
-            <li><a href="http://teachmetheweb.org/" rel="external" title="Teach Me the Web">Teach Me the Web</a></li>
-            <li><a href="http://www.travisswicegood.com/index.php" rel="external" title="Travis Swicegood">Travis Swicegood</a></li>
-            <li><a href="http://zgordon.org/" rel="external" title="Zac Gordon">Zac Gordon</a></li>
         </ul>
     </div>
 </%def>

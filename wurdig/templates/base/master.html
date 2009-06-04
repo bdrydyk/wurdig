@@ -25,8 +25,16 @@ ${wurdig.doctype()}
         </div>
         <div id="doc4" class="yui-t6">
             <div id="hd" role="banner" class="${controller}">
-                ${wurdig.primary_nav(slug)}
-                ${wurdig.header()}
+                 ${wurdig.header()}
+                <div id="nav">
+                	<div id="navwrap">
+                		<ul>
+                            ${wurdig.primary_nav(slug)}
+                		</ul>
+                	</div>
+                </div>
+                
+               
             </div>
             <div id="wurdig-header-img" style="${wurdig.random_header_img()}">
                 ${self.content_header()}
@@ -38,8 +46,8 @@ ${wurdig.doctype()}
                         ${next.body()}  
                     </div>
                 </div>
-                <div class="yui-b" id="wurdig-sidebar" role="complementary">
-                    <div class="in in-sidebar">
+                                
+                <div class="yui-b" id="sidebar" role="complementary">
                         ${wurdig.search_form()}
                         ${wurdig.subscribe()}
                         ${wurdig.recent_comments()}
@@ -47,7 +55,6 @@ ${wurdig.doctype()}
                         % if request.urlvars['action'] != 'cloud':
                             ${wurdig.tags()}
                         % endif
-                    </div>
                 </div>
             </div>
             <div class="yui-gb" id="wurdig-secondary-content">

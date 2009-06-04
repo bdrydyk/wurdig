@@ -3,36 +3,36 @@ import logging
 import os.path
 import datetime
 
-from wurdig import model
+
 from wurdig.config.environment import load_environment
+import wurdig.config as config
 from authkit.users.sqlalchemy_driver import UsersFromDatabase
 from authkit.users import md5
-
+from wurdig.model import *
+from wurdig.users.elixir_driver import UsersFromDatabase
+from sqlalchemy import engine_from_config
 log = logging.getLogger(__name__)
+from wurdig import model
 
 def setup_app(command, conf, vars):
     """Place any commands to setup wurdig here"""
     load_environment(conf.global_conf, conf.local_conf)
-
-    from wurdig.model import meta
-    meta.metadata.bind = meta.engine
-    
-    log.info("Adding the AuthKit model...")
-    users = UsersFromDatabase(model)
-    
     filename = os.path.split(conf.filename)[-1]
-    if filename == 'test.ini':
-        # Permanently drop any existing tables
-        log.info("Dropping existing tables...")
-        meta.metadata.drop_all(checkfirst=True)
-        
-    # Create the tables if they aren't there already
-    meta.metadata.create_all(checkfirst=True)
     
-    log.info("Adding roles and uses...")
-    users.role_create("admin")
-    users.user_create("admin", password=md5("admin"))
-    users.user_add_role("admin", role="admin")
+    
+    # log.info("Adding the AuthKit model...")
+    # users = UsersFromDatabase(model)
+    # users = users.update_model(users)
+    # 
+    # 
+    # 
+    # # Create the tables if they aren't there already
+    # model.metadata.create_all(checkfirst=True)
+    # 
+    # log.info("Adding roles and uses...")
+    # users.role_create("admin")
+    # users.user_create("admin", password=md5("admin"))
+    # users.user_add_role("admin", role="admin")
     
     log.info("Adding about page...")
     page1 = model.Page()
@@ -52,16 +52,16 @@ def setup_app(command, conf, vars):
     <div class="wurdig-caption aligncenter" style="width: 440px;"><a href="http://www.flickr.com/photos/leveilles/3273777769/"><img title="My Office" src="http://farm4.static.flickr.com/3368/3273777769_be393f175a_b.jpg" alt="Office Image 1" width="430" height="287"></a><p class="wurdig-caption-text">Office Image 1</p></div>
     <div class="wurdig-caption aligncenter" style="width: 440px;"><a href="http://www.flickr.com/photos/leveilles/3274596830/in/photostream/"><img title="Office Image 2" src="http://farm4.static.flickr.com/3300/3274596830_ac344872d7_b.jpg" alt="Office Image 2" width="430" height="287"></a><p class="wurdig-caption-text">Office Image 2</p></div>
     """
-    meta.Session.add(page1)
-    meta.Session.flush()
+    Session.add(page1)
+    Session.flush()
     
     log.info("Adding teach page...")
     page2 = model.Page()
     page2.title = u'My life as a teacher'
     page2.slug = u'teaching'
     page2.content = u'<p>I am often asked about my old teaching material (which used to be housed at http://www.my-classes.org - <a href="http://web.archive.org/web/20071216031655/http://www.my-classes.org/">wayback</a>).  <a href="http://jasonleveille.com/teacher/">My old lessons</a> are still available (I can\'t say how relevant they still are though!).  Let me know if you have any questions.</p>'
-    meta.Session.add(page2)
-    meta.Session.flush()
+    Session.add(page2)
+    Session.flush()
     
     log.info("Adding comment styleguide page...")
     styleguide = model.Page()
@@ -74,8 +74,8 @@ def setup_app(command, conf, vars):
         <li>Links will automatically be linked for you if not wrapped in anchor tag.</li><li>&lt;a href=&quot;&quot title=&quot;&quot&gt;link&lt;/a&gt;</li>
     </ul>
     """
-    meta.Session.add(styleguide)
-    meta.Session.flush()
+    Session.add(styleguide)
+    Session.flush()
     
     log.info("Adding search page...")
     search = model.Page()
@@ -93,8 +93,8 @@ def setup_app(command, conf, vars):
         <script type="text/javascript" src="http://www.google.com/afsonline/show_afs_search.js">
     </script>
     """
-    meta.Session.add(search)
-    meta.Session.flush()
+    Session.add(search)
+    Session.flush()
     
     log.info("Adding first post...")
     post1 = model.Post()
@@ -102,8 +102,8 @@ def setup_app(command, conf, vars):
     post1.slug = u'first-test-post'
     post1.content = u'<p>This is the first test post</p>'
     post1.created_on = datetime.datetime(2008, 3, 17, 12, 30, 45)
-    meta.Session.add(post1)
-    meta.Session.flush()
+    Session.add(post1)
+    Session.flush()
     
     log.info("Adding fifth post...")
     post5 = model.Post()
@@ -113,8 +113,8 @@ def setup_app(command, conf, vars):
     post5.created_on = datetime.datetime(2008, 3, 17, 12, 30, 45)
     post5.draft = False
     post5.posted_on = datetime.datetime(2008, 3, 18, 12, 30, 45)
-    meta.Session.add(post5)
-    meta.Session.flush()
+    Session.add(post5)
+    Session.flush()
     
     log.info("Adding second post...")
     post2 = model.Post()
@@ -124,8 +124,8 @@ def setup_app(command, conf, vars):
     post2.created_on = datetime.datetime(2009, 3, 24, 12, 30, 45)
     post2.draft = False
     post2.posted_on = datetime.datetime(2009, 3, 24, 12, 30, 45)
-    meta.Session.add(post2)
-    meta.Session.flush()
+    Session.add(post2)
+    Session.flush()
     
     log.info("Adding third post...")
     post3 = model.Post()
@@ -135,8 +135,8 @@ def setup_app(command, conf, vars):
     post3.created_on = datetime.datetime(2009, 3, 25, 12, 30, 45)
     post3.draft = False
     post3.posted_on = datetime.datetime(2009, 3, 25, 12, 30, 45)
-    meta.Session.add(post3)
-    meta.Session.flush()
+    Session.add(post3)
+    Session.flush()
     
     log.info("Adding fourth post...")
     post4 = model.Post()
@@ -146,8 +146,8 @@ def setup_app(command, conf, vars):
     post4.created_on = datetime.datetime(2009, 4, 5, 12, 30, 45)
     post4.draft = False
     post4.posted_on = datetime.datetime(2009, 4, 5, 12, 30, 45)
-    meta.Session.add(post4)
-    meta.Session.flush()
+    Session.add(post4)
+    Session.flush()
     
     log.info("Adding second post comment...")
     comment1 = model.Comment()
@@ -156,8 +156,8 @@ def setup_app(command, conf, vars):
     comment1.name = u'Responsible Web'
     comment1.email = u'nomail@gmail.com'
     comment1.url = u'http://responsibleweb.com'
-    meta.Session.add(comment1)
-    meta.Session.flush()
+    Session.add(comment1)
+    Session.flush()
     
     log.info("Adding second post comment...")
     comment2 = model.Comment()
@@ -167,36 +167,36 @@ def setup_app(command, conf, vars):
     comment2.email = u'nomail@gmail.com'
     comment2.url = u'http://responsibleweb.com'
     comment2.approved = True
-    meta.Session.add(comment2)
-    meta.Session.flush()
+    Session.add(comment2)
+    Session.flush()
     
     log.info("Adding first tag...")
     tag1 = model.Tag()
     tag1.name = u'Pylons'
     tag1.slug = u'pylons'
-    meta.Session.add(tag1)
-    meta.Session.flush()
+    Session.add(tag1)
+    Session.flush()
     
     log.info("Adding second tag...")
     tag2 = model.Tag()
     tag2.name = u'Python'
     tag2.slug = u'python'
-    meta.Session.add(tag2)
-    meta.Session.flush()
+    Session.add(tag2)
+    Session.flush()
     
     log.info("Assigning tags...")
-    post_x = meta.Session.query(model.Post)
+    post_x = Session.query(Post)
     post_y = post_x.get(int(2))
     post_z = post_x.get(int(3))
-    tag_x = meta.Session.query(model.Tag)
+    tag_x = Session.query(Tag)
     tag_y = tag_x.filter_by(name=u'Python').first()
     tag_z = tag_x.filter_by(name=u'Pylons').first()
     post_y.tags.append(tag_y)
     post_y.tags.append(tag_z)
     post_z.tags.append(tag_z)
-    meta.Session.add(post_y)
-    meta.Session.add(post_z)
-    meta.Session.flush()
+    Session.add(post_y)
+    Session.add(post_z)
+    Session.flush()
     
-    meta.Session.commit()
+    Session.commit()
     log.info('Successfully set up.')

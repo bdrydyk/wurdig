@@ -17,7 +17,7 @@ def recent_comments():
         comments= []
         template = """
         <div id="wurdig-recent-comments" class="wurdig-sidebar-list">
-            <h4>Newest Comments</h4>
+            <h2>Newest Comments</h2>
             <ul>
                 %s
             </ul>
