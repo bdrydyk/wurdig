@@ -56,6 +56,7 @@ def setup_app(command, conf, vars):
     godel = model.Tag(name=u"godel", slug='godel')
     
     
+    
     log.info("Adding about page...")
     page1 = model.Page()
     page1.title = u'About me and this site'

@@ -9,6 +9,7 @@ import wurdig.lib.helpers as h
 
 import wurdig.model as model
 import wurdig.model.meta as meta
+from wurdig.model import *
 
 from authkit.authorize.pylons_adaptors import authorize
 from formencode import htmlfill
@@ -30,7 +31,7 @@ log = logging.getLogger(__name__)
 class PostController(BaseController):
     
     def home(self):
-        posts_q = meta.Session.query(model.Post).filter(
+        posts_q = Session.query(model.Post).filter(
             model.Post.draft == False
         )
         c.paginator = paginate.Page(
@@ -48,9 +49,9 @@ class PostController(BaseController):
     @beaker_cache(expire=28800, type='memory', cache_key='post_feeds')
     def feeds(self):
         item_tag_table = metadata.tables['item_tag']
-        posts_q = meta.Session.query(Post).filter(
-            model.Post.draft == False
-        ).order_by([model.Post.posted_on.desc()]).limit(10)
+        posts_q = Session.query(Post).filter(
+            Post.draft == False
+        ).order_by([Post.posted_on.desc()]).limit(10)
         
         feed = Atom1Feed(
             title=config['blog.title'],
@@ -61,7 +62,6 @@ class PostController(BaseController):
         )
         
         for post in posts_q:
-            tags = [tag.name for tag in post.tags]
             feed.add_item(
                 title=post.title,
                 link=u'http://%s%s' % (request.server_name, h.url_for(
@@ -72,7 +72,7 @@ class PostController(BaseController):
                     slug=post.slug
                 )),
                 description=post.content,
-                categories=tuple(tags)
+                categories=tuple(post.tags)
             )
                 
         response.content_type = 'application/atom+xml'
