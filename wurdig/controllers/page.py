@@ -6,7 +6,7 @@ import wurdig.lib.helpers as h
 
 import wurdig.model as model
 import wurdig.model.meta as meta
-
+from wurdig.model import Session
 
 import webhelpers.paginate as paginate
 
@@ -26,6 +26,7 @@ from pprint import pformat
 
 from authkit.permissions import ValidAuthKitUser
 from authkit.authorize.pylons_adaptors import authorize
+from pylons import request
 
 log = logging.getLogger(__name__)
     
@@ -49,7 +50,7 @@ class PageController(BaseController):
     
     @authorize(ValidAuthKitUser())
     @restrict('POST')
-    @validate(schema=NewPageForm(), form='new')
+    @validate(form=page_form(), error_handler="index")
     def create(self):
         page = model.Page()
         
@@ -85,7 +86,7 @@ class PageController(BaseController):
     
     @authorize(ValidAuthKitUser())
     @restrict('POST')
-    @validate(schema=NewPageForm(), form='edit')
+    @validate(form=page_form(), error_handler="index")
     def save(self, id=None):
         if id is None:
             abort(404)
