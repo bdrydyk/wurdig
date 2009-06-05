@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      py:with="page_title = _(u'Resolve conflict on %(new)s') % {'new':new}"
+      >
+  <xi:include href="../layout.html" />
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type"
+          py:replace="''"/>
+    <title py:content="page_title" />
+  </head>
+  <body>
+    <div id="rum-content"
+         py:with="form=get_view(); view=get_view(action='show')">
+      <h1 py:content="page_title" />
+      <h2 py:if="parent_obj" class="rum-related-title"
+          py:content="_(u'Related to %(parent_obj)s') % {'parent_obj':parent_obj}" />
+      <h3>${_('Current version')}</h3>
+      ${view(new)}
+      <h3>${_('Your changes')}</h3>
+      ${form(old, action=url_for(action='update'), method='put', obj=new)}
+      <a href="${url_for(action='confirm_delete', _next_redirect=request.next_redirect)}">${_('Delete')}</a> |
+      <a href="${request.next_redirect}" title="${_('Discard changes I\'ve made and keep current version')}">${_('Discard changes')}</a> |
+      <a href="${url_for(action='edit', _next_redirect=request.next_redirect)}">${_('Edit current version')}</a>
+    </div>
+    <div id="rum-sidebar" />
+  </body>
+</html>

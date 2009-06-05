@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      py:with="page_title = _(u'Previewing %(item)s') % {'item':item}"
+      >
+  <xi:include href="../layout.html" />
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type"
+          py:replace="''"/>
+    <title py:content="page_title" />
+  </head>
+  <body>
+    <div id="rum-content" py:with="view=get_view()">
+      <h1 py:content="page_title" />
+      <h2 py:if="parent_obj" class="rum-related-title"
+          py:content="_(u'Related to %(parent_obj)s') % {'parent_obj':parent_obj}" />
+      ${view(item)}
+    </div>
+    <div id="rum-sidebar" />
+  </body>
+</html>

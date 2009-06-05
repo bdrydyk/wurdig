@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<?python
+widgets['meta_css'].inject()
+def safe_unicode(s):
+    try: return unicode(s)
+    except: return repr(s)
+?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      py:with="page_title = _('Metadata for %(resource_name)s') % {'resource_name':resource_name}">
+  <xi:include href="../layout.html" />
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type"
+          py:replace="''"/>
+    <title py:content="page_title" />
+  </head>
+  <body>
+    <div id="rum-content">
+      <h1 py:content="page_title" />
+      <dl class="resource-meta">
+          <dt>${_('Parent')}</dt>
+          <dd>${parent_name or _('No parent')}</dd>
+          <dt>${_('Fields')}</dt>
+          <dd>
+            <dl class="resource-fields">
+            <py:for each="field in fields">
+              <dt class="resource-field">
+                  <span class="resource-field-name">${field.name}</span>
+                  <span class="resource-field-type">${field.field_type}</span>
+              </dt>
+              <dd class="resource-field">
+                  <dl class="resource-attrs">
+                  <py:for each="name, attr in field.attrs">
+                    <dt>${name}</dt>
+                    <dd>${safe_unicode(attr)}</dd>
+                  </py:for>
+                  </dl>
+              </dd>
+            </py:for>
+            </dl>
+          </dd>
+      </dl>
+    </div>
+    <div id="rum-sidebar" />
+  </body>
+</html>
