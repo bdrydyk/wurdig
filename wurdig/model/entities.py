@@ -43,7 +43,7 @@ class Comment(Entity):
 class Tag(Entity):
     """docstring for tag"""
     """docstring for Page"""
-    name = Field(Unicode(100))
+    name = Field(Unicode(20), primary_key=True)
     path = Field(Unicode(100))
     posts = ManyToMany('Post', tablename="page_tag")
 

@@ -22,3 +22,7 @@ from wurdig.lib.tidy_helper import *
 from wurdig.lib.utils_helper import *
 from webhelpers.html.tags import stylesheet_link
 from webhelpers.html.tags import javascript_link
+
+from authkit.authorize.pylons_adaptors import authorized
+from authkit.permissions import RemoteUser, ValidAuthKitUser, UserIn
+

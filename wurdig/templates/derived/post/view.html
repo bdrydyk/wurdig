@@ -1,5 +1,4 @@
 <%inherit file="/base/master.html"/>
-<%namespace file="comment_fields.html" name="fields" import="*"/>
 <%namespace file="/component/posts.html" name="posts" import="*"/>
 
 <%def name="title()">
@@ -28,7 +27,7 @@
     </div> 
     <p class="wurdig-entry-meta">
         ${posts.tag_list(post.tags)}
-        % if h.auth.authorized(h.auth.is_valid_user):
+        % if h.authorized(h.ValidAuthKitUser()):
             <span class="wurdig-admin">
                 <strong>Admin</strong> : 
                 ${h.link_to(
@@ -51,7 +50,7 @@
                 author_class = 'is_author'
         %>
         <div id="comment-${comment.id}" class="${author_class} ${comment.id}">                    
-            % if h.auth.authorized(h.auth.is_valid_user):
+            % if h.authorized(h.auth.is_valid_user):
                 <div class="comment-admin">
                     <ul>
                         <li>

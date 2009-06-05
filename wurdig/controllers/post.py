@@ -26,6 +26,9 @@ from pprint import pformat
 
 from authkit.permissions import ValidAuthKitUser
 from authkit.authorize.pylons_adaptors import authorize
+from authkit.authorize.pylons_adaptors import authorized
+
+
 from pylons import request
 log = logging.getLogger(__name__)
 
@@ -130,17 +133,17 @@ class PostController(BaseController):
     
     @authorize(ValidAuthKitUser())
     def new(self):
-        tag_q = meta.Session.query(model.Tag)
-        c.available_tags = [(tag.id, tag.name) for tag in tag_q]
         return render('/derived/post/new.html')
     
     @authorize(ValidAuthKitUser())
     @restrict('POST')
     @validate(form=post_form, error_handler="new")
     def create(self):
-        post = model.Post()
         
-        tags = self.form_result['tags']
+        post = Post()
+        
+        tag_string = self.form_result['tags']
+        tags = tag_string.split(',')
         del self.form_result['tags']
         
         for k, v in self.form_result.items():
@@ -150,14 +153,14 @@ class PostController(BaseController):
             post.posted_on = d.datetime.now()
         
         post.created_on = d.datetime.now()
-        
-        meta.Session.add(post)
 
         for tag in tags:
-            t = meta.Session.query(model.Tag).get(tag)
+            t = Tag.query.get(tag)
+            if not t:
+                t = Tag(name=tag)
             post.tags.append(t)
         
-        meta.Session.commit()        
+        Session.commit()        
         
         #session['flash'] = 'Post successfully added.'
         #session.save()
@@ -175,15 +178,15 @@ class PostController(BaseController):
     def edit(self, id=None):
         if id is None:
             abort(404)
-        post_q = meta.Session.query(model.Post)
-        c.post = post_q.filter_by(id=id).first()
+        c.post = Post.query.filter_by(id=id).first()
         if c.post is None:
             abort(404)
         import pprint
         
-        tag_q = meta.Session.query(model.Tag)
-        c.available_tags = [(tag.id, tag.name) for tag in tag_q]
-        c.selected_tags = [str(tag.id) for tag in c.post.tags]
+        tag_q = Tag.query()
+
+        c.available_tags = [(tag.name) for tag in tag_q]
+        c.selected_tags = [(tag.name) for tag in c.post.tags]
         
         values = {
             'id':c.post.id,
@@ -202,12 +205,12 @@ class PostController(BaseController):
     def save(self, id=None):
         if id is None:
             abort(404)
-        post_q = meta.Session.query(model.Post)
-        post = post_q.filter_by(id=id).first()
+        post = Post.query.filter_by(id=id).first()
         if post is None:
             abort(404)
             
-        posted_tags = self.form_result['tags']
+        tag_string = self.form_result['tags']
+        tags = tag_string.split(',')
         del self.form_result['tags']
             
         for k,v in self.form_result.items():
@@ -220,22 +223,15 @@ class PostController(BaseController):
         elif post.posted_on is None:
             post.posted_on = d.datetime.now()
         
-        # remove existing tags which were not selected
-        # in the "posted" tags
-        for i, tag in enumerate(post.tags):
-            if tag.id not in posted_tags:
-                del post.tags[i]
-        
         # let's add the new tags for this post
-        tagids = [tag.id for tag in post.tags]
-        for tag in posted_tags:
-            if tag not in tagids:
-                t = meta.Session.query(model.Tag).get(tag)
-                post.tags.append(t)
-            
-        meta.Session.commit()
-        session['flash'] = 'Post successfully updated.'
-        session.save()
+        for tag in tags:
+            t = Tag.query.get(tag)
+            post.tags.append(t)
+            Session.commit()
+
+        Session.commit()
+        # session['flash'] = 'Post successfully updated.'
+        # session.save()
 
         if not post.draft:
             return redirect_to(controller='post', 

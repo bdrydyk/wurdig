@@ -37,22 +37,6 @@ class UniquePath(FancyValidator):
         return value
 
 
-class ValidTags(FancyValidator):
-    messages = {
-        'invalid': 'One ore more selected tags could not ' +
-        'be found in the database'
-    }
-    def _to_python(self, values, state):
-        all_tag_ids = [tag.id for tag in Session.query(Tag)]
-        for tag_id in values['tags']:
-            if tag_id not in all_tag_ids:
-                raise Invalid(
-                    self.message('invalid', state),
-                    values, state
-                )
-        return values
-
-
 #TAG##
 class ConstructPath(FancyValidator):
     def _to_python(self, value, state):
@@ -201,8 +185,8 @@ class NewPostForm(Schema):
     )
     draft = StringBool(if_missing=False)
     comments_allowed = StringBool(if_missing=False)
-    tags = ForEach(Int())
-    chained_validators = [ValidTags()]
+    #tags = ForEach(Int())
+    #chained_validators = [ValidTags()]
 class NewTagForm(Schema):
     pre_validators = [ConstructPath()]
     allow_extra_fields = True
