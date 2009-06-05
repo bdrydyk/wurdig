@@ -34,7 +34,7 @@ class PageController(BaseController):
     def view(self, path=None):
         if path is None:
             abort(404)
-        c.page = Page.filter_by(path=path).first()
+        c.page = Page.query.filter_by(path=path).first()
         if c.page is None:
             abort(404)
         if c.page.path == 'search':
