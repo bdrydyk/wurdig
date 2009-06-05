@@ -48,7 +48,7 @@ class CommentController(BaseController):
                         action='view', 
                         year=c.post.posted_on.strftime('%Y'), 
                         month=c.post.posted_on.strftime('%m'), 
-                        slug=c.post.slug,
+                        path=c.post.path,
                         anchor=u"comment-" + str(comment.id)
                     )),
                     description=comment.content
@@ -79,7 +79,7 @@ class CommentController(BaseController):
                     action='view', 
                     year=c.post.posted_on.strftime('%Y'), 
                     month=c.post.posted_on.strftime('%m'), 
-                    slug=c.post.slug
+                    path=c.post.path
                 )),
             description=u"Most recent comments for %s" % c.post.title,
             language=u"en",
@@ -93,7 +93,7 @@ class CommentController(BaseController):
                     action='view', 
                     year=c.post.posted_on.strftime('%Y'), 
                     month=c.post.posted_on.strftime('%m'), 
-                    slug=c.post.slug,
+                    path=c.post.path,
                     anchor=u'comment-' + str(comment.id)
                 )),
                 description=comment.content
@@ -153,7 +153,7 @@ class CommentController(BaseController):
                            action='view', 
                            year=c.post.posted_on.strftime('%Y'),
                            month=c.post.posted_on.strftime('%m'),
-                           slug=c.post.slug
+                           path=c.post.path
                            )
 
     @h.auth.authorize(h.auth.is_valid_user)

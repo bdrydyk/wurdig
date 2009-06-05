@@ -13,9 +13,9 @@ ${post_form(action=h.url_for(controller='post', action='save'))}
     ${h.text('title')}
 </div>
 <div class="field required">
-    <label for="slug">Slug</label>
-    <span class="description">A slug will be auto-generated if left blank</span>
-    ${h.text('slug')}
+    <label for="path">Path</label>
+    <span class="description">A path will be auto-generated if left blank</span>
+    ${h.text('path')}
 </div>
 <div class="field required">
     <label for="content">Content</label>

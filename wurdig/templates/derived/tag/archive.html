@@ -14,7 +14,7 @@
         h.url_for(
             controller='tag', 
             action='tag_feed', 
-            slug=unicode(c.tag.slug)
+            path=unicode(c.tag.path)
         ), 
         feed_type='atom', 
         title='Posts tagged "%s"' % c.tagname

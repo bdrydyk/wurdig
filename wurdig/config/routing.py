@@ -41,10 +41,10 @@ def make_map():
                 requirements = dict(post_id='\d+')
     )
 
-    map.connect('/feeds/tag/{slug}',
+    map.connect('/feeds/tag/{path}',
                 controller='tag',
                 action='tag_feed',
-                requirements = dict(slug='[-\w]+')
+                requirements = dict(path='[-\w]+')
     )
     
     map.connect('/post/{post_id}/{controller}/{action}',
@@ -55,13 +55,13 @@ def make_map():
                 requirements = dict(post_id='\d+', id='\d+')
     )
     
-    map.connect('/{year}/{month}/{slug}', controller='post', 
+    map.connect('/{year}/{month}/{path}', controller='post', 
                 action='view', 
                 requirements = {'year' : '\d{2,4}', 
                                 'month' : '\d{1,2}', 
-                                'slug' : '[-\w]+'})
+                                'path' : '[-\w]+'})
     
-    map.redirect('/{year}/{month}/{slug}/', '/{year}/{month}/{slug}', _redirect_code='301 Moved Permanently')
+    map.redirect('/{year}/{month}/{path}/', '/{year}/{month}/{path}', _redirect_code='301 Moved Permanently')
     
     map.connect('/{year}/{month}', controller='post', 
                 action='archive', 
@@ -71,25 +71,25 @@ def make_map():
                 action='archive', 
                 requirements = {'year' : '\d{2,4}'})
     
-    map.connect('/category/{slug}', controller='tag', 
+    map.connect('/category/{path}', controller='tag', 
                 action='category', 
-                requirements = {'slug' : '[-\w]+'})
+                requirements = {'path' : '[-\w]+'})
     
     # Not a big fan of hardcoding in these actions,
     # but I'm unsure how to proceed otherwise in order to get
-    # a nice clean url for the tag slug
+    # a nice clean url for the tag path
     map.connect('/tag/{action}', controller='tag', 
                 requirements = {'action' : 'cloud|new|create|edit|save|list|delete'})
     
-    map.connect('/tag/{slug}', controller='tag', 
+    map.connect('/tag/{path}', controller='tag', 
                 action='archive', 
-                requirements = {'slug' : '[-\w]+'})
+                requirements = {'path' : '[-\w]+'})
     
-    map.connect('/{slug}', controller='page', 
+    map.connect('/{path}', controller='page', 
                 action='view', 
-                requirements = {'slug' : '[-\w]+'})
+                requirements = {'path' : '[-\w]+'})
     
-    map.redirect('/{slug}/', '/{slug}', _redirect_code='301 Moved Permanently')
+    map.redirect('/{path}/', '/{path}', _redirect_code='301 Moved Permanently')
 
     map.connect('/{controller}/{action}')
     map.connect('/{controller}/{action}/{id}')

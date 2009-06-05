@@ -6,82 +6,27 @@ import wurdig.lib.helpers as h
 #from formencode import Schema, NoDefault
 from tw.forms.validators import Schema, NoDefault, FancyValidator, ForEach
 
-
-movie_form = twf.TableForm('movie_form', action='save', children=[
-    twf.HiddenField('id'),
-    twf.TextField('title'),
-    twf.Spacer(),
-    twf.TextField('year', size=4, label_text='Year of Fuck'),
-    twf.CalendarDatePicker('release_date'),
-    twf.SingleSelectField('genera', options=['', 'Action', 'Comedy', 'Other']),
-    twf.Label(text='Hello', suppress_label=True),
-    twf.TextArea('description'),
-])
-
-
-page_form = twf.TableForm('page_form', action='save', children=[
-    twf.HiddenField('id'),
-    twf.TextField('title', validator=twf.validators.NotEmpty),
-    twf.Spacer(),
-    twf.TextField('year', size=4, label_text='Year of Fuck', validator=Int(not_empty=True)),
-    twf.CalendarDatePicker('release_date'),
-    twf.SingleSelectField('genera', options=['', 'Action', 'Comedy', 'Other']),
-    twf.Label(text='Hello', suppress_label=True),
-    twf.TextArea('description', validator= UnicodeString(not_empty=True)),
-
-])
-
-
-post_form = twf.TableForm('page_form', action='save', children=[
-    twf.HiddenField('id'),
-    twf.TextField('title'),
-    twf.Spacer(),
-    twf.TextField('year', size=4, label_text='Year of Fuck'),
-    twf.CalendarDatePicker('release_date'),
-    twf.SingleSelectField('genera', options=['', 'Action', 'Comedy', 'Other']),
-    twf.Label(text='Hello', suppress_label=True),
-    twf.TextArea('description'),
-
-])
-
-tag_form = twf.TableForm('page_form', action='save', children=[
-    twf.HiddenField('id'),
-    twf.TextField('name'),
-    twf.Spacer(),
-    twf.TextField('slug', size=4, label_text='Year of Fuck')
-])
-
-comment_form = twf.TableForm('page_form', action='save', children=[
-    twf.HiddenField('id'),
-    twf.TextField('name'),
-    twf.TextField('email'),
-    twf.Spacer(),
-    twf.TextArea('content'),
-
-])
-
-
-class UniqueSlug(FancyValidator):
+class UniquePath(FancyValidator):
     messages = {
-        'invalid': 'Slug must be unique'
+        'invalid': 'Path must be unique'
     }
     def _to_python(self, value, state):
         # Ensure we have a valid string
         value = UnicodeString(max=30).to_python(value, state)
-        # validate that slug only contains letters, numbers, and dashes
+        # validate that path only contains letters, numbers, and dashes
         result = re.compile("[^\w-]").search(value)
         if result:
-            raise Invalid("Slug can only contain letters, numbers, and dashes", value, state)
+            raise Invalid("Path can only contain letters, numbers, and dashes", value, state)
         
-        # Ensure slug is unique
-        page_q = Session.query(model.Page).filter_by(slug=value)
+        # Ensure path is unique
+        page_q = Session.query(model.Page).filter_by(path=value)
         if request.urlvars['action'] == 'save':
             # we're editing an existing post.
             page_q = page_q.filter(model.Page.id != int(request.urlvars['id']))
             
-        # Check if the slug exists
-        slug = page_q.first()
-        if slug is not None:
+        # Check if the path exists
+        path = page_q.first()
+        if path is not None:
             raise Invalid(
                 self.message('invalid', state),
                 value, state)
@@ -106,11 +51,11 @@ class ValidTags(FancyValidator):
 
 
 #TAG##
-class ConstructSlug(FancyValidator):
+class ConstructPath(FancyValidator):
     def _to_python(self, value, state):
-        if value['slug'] in ['', u'', None]:
+        if value['path'] in ['', u'', None]:
             tag_name = value['name'].lower()
-            value['slug'] = re.compile(r'[^\w-]+', re.U).sub('-', tag_name).strip('-')
+            value['path'] = re.compile(r'[^\w-]+', re.U).sub('-', tag_name).strip('-')
         return value
 
 
@@ -142,27 +87,27 @@ class UniqueName(FancyValidator):
         
         return value
     
-class UniqueSlug(FancyValidator):
+class UniquePath(FancyValidator):
     messages = {
-        'invalid': 'Tag slug must be unique'
+        'invalid': 'Tag path must be unique'
     }
     def _to_python(self, value, state):
         # Ensure we have a valid string
         value = UnicodeString(max=30).to_python(value, state)
-        # validate that slug only contains letters, numbers, and dashes
+        # validate that path only contains letters, numbers, and dashes
         result = re.compile("[^\w-]").search(value)
         if result:
-            raise Invalid("Slug can only contain letters, numbers, and dashes", value, state)
+            raise Invalid("Path can only contain letters, numbers, and dashes", value, state)
         
-        # Ensure tag slug is unique
-        tag_q = Session.query(model.Tag).filter_by(slug=value)
+        # Ensure tag path is unique
+        tag_q = Session.query(model.Tag).filter_by(path=value)
         if request.urlvars['action'] == 'save':
             # we're editing an existing post.
             tag_q = tag_q.filter(model.Tag.id != int(request.urlvars['id']))
             
-        # Check if the slug exists
-        slug = tag_q.first()
-        if slug is not None:
+        # Check if the path exists
+        path = tag_q.first()
+        if path is not None:
             raise Invalid(
                 self.message('invalid', state),
                 value, state)
@@ -212,7 +157,7 @@ class PrimitiveSpamCheck(FancyValidator):
 
 
 class NewPageForm(Schema):
-#    pre_validators = [ConstructSlug(), Cleanup()]
+    #    pre_validators = [ConstructPath(), Cleanup()]
     allow_extra_fields = True
     filter_extra_fields = True
     title = UnicodeString(
@@ -223,17 +168,16 @@ class NewPageForm(Schema):
         },
         strip=True
     )
-    slug = UniqueSlug(not_empty=True, max=100, strip=True)
+    path = UniquePath(not_empty=True, max=100, strip=True)
     content = UnicodeString(
         not_empty=True,
         messages={
             'empty':'Enter some post content.'
         },
-        strip=True
-    )
-
+        strip=True)
+        
 class NewPostForm(Schema):
-#    pre_validators = [ConstructSlug(), Cleanup()]
+    #    pre_validators = [ConstructPath(), Cleanup()]
     allow_extra_fields = True
     filter_extra_fields = True
     title = UnicodeString(
@@ -244,7 +188,7 @@ class NewPostForm(Schema):
         },
         strip=True
     )
-    slug = UniqueSlug(not_empty=True, max=100, strip=True)
+    path = UniquePath(not_empty=True, max=100, strip=True)
     content = UnicodeString(
         not_empty=True,
         messages={
@@ -256,15 +200,12 @@ class NewPostForm(Schema):
     comments_allowed = StringBool(if_missing=False)
     tags = ForEach(Int())
     chained_validators = [ValidTags()]
-
-
 class NewTagForm(Schema):
-    pre_validators = [ConstructSlug()]
+    pre_validators = [ConstructPath()]
     allow_extra_fields = True
     filter_extra_fields = True
     name = UniqueName(not_empty=True, max=30, strip=True)
-    slug = UniqueSlug(not_empty=True, max=30, strip=True)
-
+    path = UniquePath(not_empty=True, max=30, strip=True)
 class NewCommentForm(Schema):
     allow_extra_fields = True
     filter_extra_fields = True
@@ -288,3 +229,61 @@ class NewCommentForm(Schema):
 
 
 
+
+
+
+movie_form = twf.TableForm('movie_form', action='save', children=[
+    twf.HiddenField('id'),
+    twf.TextField('title'),
+    twf.Spacer(),
+    twf.TextField('year', size=4, label_text='Year of Fuck'),
+    twf.CalendarDatePicker('release_date'),
+    twf.SingleSelectField('genera', options=['', 'Action', 'Comedy', 'Other']),
+    twf.Label(text='Hello', suppress_label=True),
+    twf.TextArea('description'),
+])
+
+
+page_form = twf.TableForm('page_form', action='save', validator = NewPageForm, children=[
+    twf.HiddenField('id'),
+    twf.TextField('title', validator=twf.validators.NotEmpty),
+    twf.Spacer(),
+    twf.TextField('year', size=4, label_text='Year of Fuck', validator=Int(not_empty=True)),
+    twf.CalendarDatePicker('release_date'),
+    twf.SingleSelectField('genera', options=['', 'Action', 'Comedy', 'Other']),
+    twf.Label(text='Hello', suppress_label=True),
+    twf.TextArea('description', validator= UnicodeString(not_empty=True)),
+
+])
+
+#${post_form(action=h.url_for(controller='tutorial', action='save'))}
+
+post_form = twf.TableForm('page_form', action='save', validator = NewPostForm, children=[
+    twf.HiddenField('id'),
+    twf.TextField('title'),
+    twf.TextField('path'),
+    twf.TextField('tags'),
+    #twf.Spacer(),
+    #twf.TextField('year', size=4, label_text='Year of Fuck'),
+    #twf.CalendarDatePicker('release_date'),
+    #twf.Label(text='Hello', suppress_label=True),
+    twf.CheckBox('draft'),
+    twf.TextArea('content'),
+
+])
+
+tag_form = twf.TableForm('page_form', action='save', validator = NewTagForm, children=[
+    twf.HiddenField('id'),
+    twf.TextField('name'),
+    twf.Spacer(),
+    twf.TextField('path', size=4, label_text='Year of Fuck')
+])
+
+comment_form = twf.TableForm('page_form', action='save', validator = NewCommentForm, children=[
+    twf.HiddenField('id'),
+    twf.TextField('name'),
+    twf.TextField('email'),
+    twf.Spacer(),
+    twf.TextArea('content'),
+
+])

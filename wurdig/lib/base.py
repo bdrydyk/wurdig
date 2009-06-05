@@ -17,11 +17,11 @@ class Cleanup(formencode.FancyValidator):
             value['content'] = h.mytidy(value['content'])
         return value
     
-class ConstructSlug(formencode.FancyValidator):
+class ConstructPath(formencode.FancyValidator):
     def _to_python(self, value, state):
-        if value['slug'] in ['', u'', None]:
+        if value['path'] in ['', u'', None]:
             title = value['title'].lower()
-            value['slug'] = re.compile(r'[^\w-]+', re.U).sub('-', title).strip('-')
+            value['path'] = re.compile(r'[^\w-]+', re.U).sub('-', title).strip('-')
         return value
 
 class BaseController(WSGIController):     

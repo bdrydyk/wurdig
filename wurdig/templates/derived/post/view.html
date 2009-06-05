@@ -130,7 +130,7 @@
                           action='view', 
                           year=c.post.posted_on.strftime('%Y'), 
                           month=c.post.posted_on.strftime('%m'), 
-                          slug=c.post.slug, 
+                          path=c.post.path, 
                           anchor=u'comments')
             )}
         % else:
@@ -140,7 +140,7 @@
                           action='view', 
                           year=c.post.posted_on.strftime('%Y'), 
                           month=c.post.posted_on.strftime('%m'), 
-                          slug=c.post.slug, 
+                          path=c.post.path, 
                           anchor=u'leave-comment')
             )}
         % endif

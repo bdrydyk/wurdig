@@ -64,13 +64,13 @@ ${h.stylesheet_link('/css/print.css', media='print')}
                 </a>
             </li>
             <li class="${n_about}">
-                <a href="${h.url_for(controller='page', action='view', slug='about')}" 
+                <a href="${h.url_for(controller='page', action='view', path='about')}" 
                     title="About This Site" class="${n_about}">
                     About
                 </a>
             </li>
             <li class="${n_teaching}">
-                <a href="${h.url_for(controller='page', action='view', slug='teaching')}" 
+                <a href="${h.url_for(controller='page', action='view', path='teaching')}" 
                     title="My Former Teaching Life" class="${n_teaching}">
                     Teaching
                 </a>
@@ -158,7 +158,7 @@ ${h.stylesheet_link('/css/print.css', media='print')}
                     <a href="${h.url_for(
                                 controller='tag', 
                                 action='tag_feed', 
-                                slug=unicode(c.tag.slug)
+                                path=unicode(c.tag.path)
                             )}"
                         title="Posts tagged ${c.tagname}">
                         ${c.tagname}

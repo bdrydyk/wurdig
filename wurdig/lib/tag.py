@@ -16,7 +16,7 @@
 #             link_pattern = '<a href="%s" rel="tag" title="%s tagged with %s">%s</a>'
 #             url = h.url_for(controller='tag', 
 #                              action='archive', 
-#                              slug=tag.slug)
+#                              path=tag.path)
 #             parts.append(link_pattern % (url, 
 #                                          h.plural(len(tag.posts), 'Post', 'Posts'), 
 #                                          tag.name, 
@@ -34,7 +34,7 @@
 #         parts.append('<strong>Tagged in</strong> : ')
 #         for tag in tags:
 #             link_pattern = '<a href="%s" rel="tag">%s</a>'
-#             _tags.append(link_pattern % (h.url_for(controller='tag', action='archive', slug=tag.slug),
+#             _tags.append(link_pattern % (h.url_for(controller='tag', action='archive', path=tag.path),
 #                                          tag.name
 #                                          ))
 #         tags = ', '.join(_tags)

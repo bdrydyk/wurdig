@@ -17,7 +17,7 @@ from pylons.decorators.cache import beaker_cache
 from pylons.decorators.rest import restrict
 from sqlalchemy.sql import and_, delete
 from webhelpers.feedgenerator import Atom1Feed
-from wurdig.lib.base import BaseController, Cleanup, ConstructSlug, render
+from wurdig.lib.base import BaseController, Cleanup, ConstructPath, render
 
 log = logging.getLogger(__name__)
 from tw.forms.samples import AddUserForm

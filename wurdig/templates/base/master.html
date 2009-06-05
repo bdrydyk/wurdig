@@ -12,13 +12,13 @@ ${wurdig.doctype()}
     <%
         controller = request.urlvars['controller']
         action = request.urlvars['action']
-        slug = None
+        path = None
         if controller == 'page' and action == 'view':
-        	slug = request.urlvars['slug']
+        	path = request.urlvars['path']
         elif controller == 'post' and action == 'home':
-            slug = action
+            path = action
     %>
-    <body class="${controller} ${slug}">   
+    <body class="${controller} ${path}">   
         <div class="js succ">
         </div>
         <div class="js err">
@@ -29,7 +29,7 @@ ${wurdig.doctype()}
                 <div id="nav">
                 	<div id="navwrap">
                 		<ul>
-                            ${wurdig.primary_nav(slug)}
+                            ${wurdig.primary_nav(path)}
                 		</ul>
                 	</div>
                 </div>

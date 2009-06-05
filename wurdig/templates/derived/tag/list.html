@@ -23,7 +23,7 @@
                     <td>
                         ${h.link_to(
                             'View',
-                            h.url_for(controller='tag', action='archive', slug=unicode(tag.slug))
+                            h.url_for(controller='tag', action='archive', path=unicode(tag.path))
                         )} | 
                         ${h.link_to(
                             'Edit',

@@ -27,7 +27,7 @@
                                       action='view', 
                                       year=post.posted_on.strftime('%Y'), 
                                       month=post.posted_on.strftime('%m'), 
-                                      slug=unicode(post.slug))
+                                      path=unicode(post.path))
                             )}
                         % else:
                             ${h.truncate(post.title)}

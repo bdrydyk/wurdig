@@ -30,35 +30,35 @@ class TagController(BaseController):
     def cloud(self):
         return render('/derived/tag/cloud.html')
     
-    def category(self, slug=None):   
-        if slug is None:
+    def category(self, path=None):   
+        if path is None:
             abort(404)
             
         tag_q = meta.Session.query(model.Tag)
-        c.tag = tag_q.filter(model.Tag.slug==slug).count()
+        c.tag = tag_q.filter(model.Tag.path==path).count()
         
         if(c.tag in [0, None]):
             abort(404)
             
-        return redirect_to(controller='tag', action='archive', slug=slug, _code=301)
+        return redirect_to(controller='tag', action='archive', path=path, _code=301)
     
-    def archive(self, slug=None):   
+    def archive(self, path=None):   
         """
         @todo: purge cache for tag_archive on post add and post delete for post_home
         """
-        if slug is None:
+        if path is None:
             abort(404)
         tag_q = meta.Session.query(model.Tag)
-        c.tag = tag_q.filter(model.Tag.slug==slug).first()
+        c.tag = tag_q.filter(model.Tag.path==path).first()
         
         if(c.tag is None):
-            c.tagname = slug
+            c.tagname = path
         else:
             c.tagname = c.tag.name
             
         query = meta.Session.query(model.Post).filter(
             and_(
-                 model.Post.tags.any(slug=slug), 
+                 model.Post.tags.any(path=path), 
                  model.Post.posted_on != None
             )
         ).all()
@@ -69,39 +69,39 @@ class TagController(BaseController):
             items_per_page = 10,
             controller='tag',
             action='archive',
-            slug=slug
+            path=path
         )
                 
         return render('/derived/tag/archive.html')
 
     @beaker_cache(expire=28800, type='memory', cache_key='tag_feed')
-    def tag_feed(self, slug=None):
-        if slug is None:
+    def tag_feed(self, path=None):
+        if path is None:
             abort(404)
         tag_q = meta.Session.query(model.Tag)
-        c.tag = tag_q.filter(model.Tag.slug==slug).first()
+        c.tag = tag_q.filter(model.Tag.path==path).first()
         
         if(c.tag is None):
-            c.tagname = slug
+            c.tagname = path
         else:
             c.tagname = c.tag.name
             
         posts_q = meta.Session.query(model.Post).filter(
             and_(
-                 model.Post.tags.any(slug=slug), 
+                 model.Post.tags.any(path=path), 
                  model.Post.draft == False 
             )
         ).order_by([model.Post.posted_on.desc()]).limit(10)
 
         feed = Atom1Feed(
             title=config['blog.title'],
-            subtitle=u'Blog posts tagged "%s"' % slug,
+            subtitle=u'Blog posts tagged "%s"' % path,
             link=u"http://%s%s" % (request.server_name, h.url_for(
                 controller='tag',
                 action='archive',
-                slug=slug
+                path=path
             )),
-            description=u"Blog posts tagged %s" % slug,
+            description=u"Blog posts tagged %s" % path,
             language=u"en",
         )
         
@@ -114,7 +114,7 @@ class TagController(BaseController):
                     action='view', 
                     year=post.posted_on.strftime('%Y'), 
                     month=post.posted_on.strftime('%m'), 
-                    slug=post.slug
+                    path=post.path
                 )),
                 description=post.content,
                 categories=tuple(tags)
@@ -154,7 +154,7 @@ class TagController(BaseController):
         values = {
             'id':tag.id,
             'name':tag.name,
-            'slug':tag.slug
+            'path':tag.path
         }
         return htmlfill.render(render('/derived/tag/edit.html'), values)
     

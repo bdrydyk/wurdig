@@ -10,15 +10,13 @@ from wurdig.model import Session
 
 import webhelpers.paginate as paginate
 
-from authkit.authorize.pylons_adaptors import authorize
 from formencode import htmlfill
 from pylons import cache, request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect_to
-from pylons.decorators import validate
 from pylons.decorators.cache import beaker_cache
 from pylons.decorators.rest import restrict
 from sqlalchemy.sql import and_, delete
-from wurdig.lib.base import BaseController, Cleanup, ConstructSlug, render
+from wurdig.lib.base import BaseController, Cleanup, ConstructPath, render
 
 from tw.mods.pylonshf import validate
 from wurdig.model.twforms import *
@@ -33,14 +31,14 @@ log = logging.getLogger(__name__)
 
 class PageController(BaseController):
     
-    def view(self, slug=None):
-        if slug is None:
+    def view(self, path=None):
+        if path is None:
             abort(404)
         page_q = Session.query(model.Page)
-        c.page = page_q.filter_by(slug=slug).first()
+        c.page = page_q.filter_by(path=path).first()
         if c.page is None:
             abort(404)
-        if c.page.slug == 'search':
+        if c.page.path == 'search':
             return render('/derived/page/search.html')
         return render('/derived/page/view.html')
 
@@ -66,7 +64,7 @@ class PageController(BaseController):
 
         return redirect_to(controller='page', 
                            action='view', 
-                           slug=page.slug)
+                           path=page.path)
     
     @authorize(ValidAuthKitUser())
     def edit(self, id=None):
@@ -79,7 +77,7 @@ class PageController(BaseController):
         values = {
             'id':page.id,
             'title':page.title,
-            'slug':page.slug,
+            'path':page.path,
             'content':page.content
         }
         return htmlfill.render(render('/derived/page/edit.html'), values)
@@ -105,7 +103,7 @@ class PageController(BaseController):
 
         return redirect_to(controller='page', 
                            action='view', 
-                           slug=page.slug)
+                           path=page.path)
     
     @authorize(ValidAuthKitUser())
     def list(self):

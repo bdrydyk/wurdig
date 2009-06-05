@@ -11,22 +11,22 @@ import wurdig.model as model
 import wurdig.model.meta as meta
 from wurdig.model import *
 
-from authkit.authorize.pylons_adaptors import authorize
 from formencode import htmlfill
 from pylons import cache, config, request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect_to
-from pylons.decorators import validate
 from pylons.decorators.cache import beaker_cache
 from pylons.decorators.rest import restrict
 from sqlalchemy.sql import and_, delete
 from webhelpers.feedgenerator import Atom1Feed
-from wurdig.lib.base import BaseController, Cleanup, ConstructSlug, render
+from wurdig.lib.base import BaseController, Cleanup, ConstructPath, render
 
+from tw.mods.pylonshf import validate
 from wurdig.model.twforms import *
+from pprint import pformat
 
 from authkit.permissions import ValidAuthKitUser
 from authkit.authorize.pylons_adaptors import authorize
-
+from pylons import request
 log = logging.getLogger(__name__)
 
 
@@ -72,7 +72,7 @@ class PostController(BaseController):
                     action='view', 
                     year=post.posted_on.strftime('%Y'), 
                     month=post.posted_on.strftime('%m'), 
-                    slug=post.slug
+                    path=post.path
                 )),
                 description=post.content,
                 categories=tuple(post.tags)
@@ -112,16 +112,20 @@ class PostController(BaseController):
                 
         return render('/derived/post/archive.html')
     
-    def view(self, year, month, slug):
+    def view(self, year, month, path):
         (year_i, month_i) = (int(year), int(month))
         
         post_tag_table = metadata.tables['post_tag']
         
+        c.post = Post.query.filter(Post.posted_on >= d.datetime(year_i, month_i, 1),
+            Post.posted_on <= d.datetime(year_i, month_i, calendar.monthrange(year_i, month_i)[1]),
+            Post.draft == False,
+            Post.path == path)
         c.post = meta.Session.query(model.Post).filter(
             and_(model.Post.posted_on >= d.datetime(year_i, month_i, 1), 
                  model.Post.posted_on <= d.datetime(year_i, month_i, calendar.monthrange(year_i, month_i)[1]),
                  model.Post.draft == False,
-                 model.Post.slug == slug)
+                 model.Post.path == path)
         ).first()
                                  
         if c.post is None:
@@ -137,7 +141,7 @@ class PostController(BaseController):
     
     @authorize(ValidAuthKitUser())
     @restrict('POST')
-    @validate(schema=NewPostForm(), form='new')
+    @validate(form=post_form, error_handler="new")
     def create(self):
         post = model.Post()
         
@@ -167,7 +171,7 @@ class PostController(BaseController):
                                action='view', 
                                year=post.posted_on.strftime('%Y'), 
                                month=post.posted_on.strftime('%m'), 
-                               slug=post.slug)
+                               path=post.path)
         else:
             return redirect_to(controller='post', action='list')
     
@@ -188,7 +192,7 @@ class PostController(BaseController):
         values = {
             'id':c.post.id,
             'title':c.post.title,
-            'slug':c.post.slug,
+            'path':c.post.path,
             'content':c.post.content,
             'draft':c.post.draft,
             'comments_allowed':c.post.comments_allowed,
@@ -198,7 +202,7 @@ class PostController(BaseController):
     
     @authorize(ValidAuthKitUser())
     @restrict('POST')
-    @validate(schema=NewPostForm(), form='edit')
+    @validate(form=post_form, error_handler="new")
     def save(self, id=None):
         if id is None:
             abort(404)
@@ -242,7 +246,7 @@ class PostController(BaseController):
                                action='view', 
                                year=post.posted_on.strftime('%Y'), 
                                month=post.posted_on.strftime('%m'), 
-                               slug=post.slug)
+                               path=post.path)
         else:
             return redirect_to(controller='post', action='list')
     

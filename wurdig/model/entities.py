@@ -3,7 +3,7 @@ from elixir import *
 class Page(Entity):
     """docstring for Page"""
     title = Field(Unicode(100))
-    slug = Field(Unicode(100))
+    path = Field(Unicode(100))
     content = Field(UnicodeText)
     created_on = Field(Date)
         
@@ -16,7 +16,7 @@ class Author(Entity):
 class Post(Entity):
     """docstring for Page"""
     title = Field(Unicode(100))
-    slug = Field(Unicode(100))
+    path = Field(Unicode(100))
     content = Field(UnicodeText)
     created_on = Field(Date)
     comments_allowed = Field(Boolean)
@@ -44,7 +44,7 @@ class Tag(Entity):
     """docstring for tag"""
     """docstring for Page"""
     name = Field(Unicode(100))
-    slug = Field(Unicode(100))
+    path = Field(Unicode(100))
     posts = ManyToMany('Post', tablename="page_tag")
 
 

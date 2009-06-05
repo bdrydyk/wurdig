@@ -75,59 +75,59 @@
 	<wp:category><wp:category_nicename>django-python</wp:category_nicename><wp:category_parent>Python</wp:category_parent><wp:cat_name><![CDATA[Django]]></wp:cat_name></wp:category>
 	<wp:category><wp:category_nicename>pylons</wp:category_nicename><wp:category_parent>Python</wp:category_parent><wp:cat_name><![CDATA[Pylons]]></wp:cat_name></wp:category>
 	<wp:category><wp:category_nicename>rest-web-services</wp:category_nicename><wp:category_parent>Web Services</wp:category_parent><wp:cat_name><![CDATA[REST]]></wp:cat_name></wp:category>
-	<wp:tag><wp:tag_slug>xhtml</wp:tag_slug><wp:tag_name><![CDATA[(X)HTML]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>net</wp:tag_slug><wp:tag_name><![CDATA[.net]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>apache</wp:tag_slug><wp:tag_name><![CDATA[Apache]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>api</wp:tag_slug><wp:tag_name><![CDATA[API]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>aptana</wp:tag_slug><wp:tag_name><![CDATA[Aptana]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>blog</wp:tag_slug><wp:tag_name><![CDATA[Blog]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>book-review</wp:tag_slug><wp:tag_name><![CDATA[Book Review]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>books</wp:tag_slug><wp:tag_name><![CDATA[Books]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>cakephp</wp:tag_slug><wp:tag_name><![CDATA[CakePHP]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>codeignitor</wp:tag_slug><wp:tag_name><![CDATA[CodeIgnitor]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>coding</wp:tag_slug><wp:tag_name><![CDATA[coding]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>css</wp:tag_slug><wp:tag_name><![CDATA[CSS]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>deployed</wp:tag_slug><wp:tag_name><![CDATA[Deployed]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>development</wp:tag_slug><wp:tag_name><![CDATA[Development]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>django</wp:tag_slug><wp:tag_name><![CDATA[Django]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>doctrine</wp:tag_slug><wp:tag_name><![CDATA[Doctrine]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>expression-engine</wp:tag_slug><wp:tag_name><![CDATA[Expression Engine]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>frameworks</wp:tag_slug><wp:tag_name><![CDATA[Frameworks]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>git</wp:tag_slug><wp:tag_name><![CDATA[Git]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>htaccess</wp:tag_slug><wp:tag_name><![CDATA[htaccess]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>html</wp:tag_slug><wp:tag_name><![CDATA[HTML]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>javascript</wp:tag_slug><wp:tag_name><![CDATA[JavaScript]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>jquery</wp:tag_slug><wp:tag_name><![CDATA[jQuery]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>knowledge</wp:tag_slug><wp:tag_name><![CDATA[Knowledge]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>lighttpd</wp:tag_slug><wp:tag_name><![CDATA[lighttpd]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>linux</wp:tag_slug><wp:tag_name><![CDATA[linux]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>miscellaneous</wp:tag_slug><wp:tag_name><![CDATA[Miscellaneous]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>mysql</wp:tag_slug><wp:tag_name><![CDATA[mysql]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>open-source-projects</wp:tag_slug><wp:tag_name><![CDATA[Open Source Projects]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>opml</wp:tag_slug><wp:tag_name><![CDATA[opml]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>orm</wp:tag_slug><wp:tag_name><![CDATA[ORM]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>php</wp:tag_slug><wp:tag_name><![CDATA[PHP]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>plugins</wp:tag_slug><wp:tag_name><![CDATA[Plugins]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>project-alumni</wp:tag_slug><wp:tag_name><![CDATA[project alumni]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>pylons</wp:tag_slug><wp:tag_name><![CDATA[Pylons]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>python</wp:tag_slug><wp:tag_name><![CDATA[Python]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>quicklinks</wp:tag_slug><wp:tag_name><![CDATA[quicklinks]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>quotes</wp:tag_slug><wp:tag_name><![CDATA[Quotes]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>rails</wp:tag_slug><wp:tag_name><![CDATA[Rails]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>recipe</wp:tag_slug><wp:tag_name><![CDATA[recipe]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>responsible</wp:tag_slug><wp:tag_name><![CDATA[responsible]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>rest</wp:tag_slug><wp:tag_name><![CDATA[REST]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>security</wp:tag_slug><wp:tag_name><![CDATA[Security]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>simpemc</wp:tag_slug><wp:tag_name><![CDATA[simpemc]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>simplemc</wp:tag_slug><wp:tag_name><![CDATA[simplemc]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>subversion</wp:tag_slug><wp:tag_name><![CDATA[Subversion]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>tools</wp:tag_slug><wp:tag_name><![CDATA[Tools]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>ubuntu</wp:tag_slug><wp:tag_name><![CDATA[ubuntu]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>vi</wp:tag_slug><wp:tag_name><![CDATA[vi]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>virtual</wp:tag_slug><wp:tag_name><![CDATA[virtual]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>web</wp:tag_slug><wp:tag_name><![CDATA[web]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>web-services</wp:tag_slug><wp:tag_name><![CDATA[Web Services]]></wp:tag_name></wp:tag>
-	<wp:tag><wp:tag_slug>wordpress</wp:tag_slug><wp:tag_name><![CDATA[Wordpress]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>xhtml</wp:tag_path><wp:tag_name><![CDATA[(X)HTML]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>net</wp:tag_path><wp:tag_name><![CDATA[.net]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>apache</wp:tag_path><wp:tag_name><![CDATA[Apache]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>api</wp:tag_path><wp:tag_name><![CDATA[API]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>aptana</wp:tag_path><wp:tag_name><![CDATA[Aptana]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>blog</wp:tag_path><wp:tag_name><![CDATA[Blog]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>book-review</wp:tag_path><wp:tag_name><![CDATA[Book Review]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>books</wp:tag_path><wp:tag_name><![CDATA[Books]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>cakephp</wp:tag_path><wp:tag_name><![CDATA[CakePHP]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>codeignitor</wp:tag_path><wp:tag_name><![CDATA[CodeIgnitor]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>coding</wp:tag_path><wp:tag_name><![CDATA[coding]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>css</wp:tag_path><wp:tag_name><![CDATA[CSS]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>deployed</wp:tag_path><wp:tag_name><![CDATA[Deployed]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>development</wp:tag_path><wp:tag_name><![CDATA[Development]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>django</wp:tag_path><wp:tag_name><![CDATA[Django]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>doctrine</wp:tag_path><wp:tag_name><![CDATA[Doctrine]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>expression-engine</wp:tag_path><wp:tag_name><![CDATA[Expression Engine]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>frameworks</wp:tag_path><wp:tag_name><![CDATA[Frameworks]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>git</wp:tag_path><wp:tag_name><![CDATA[Git]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>htaccess</wp:tag_path><wp:tag_name><![CDATA[htaccess]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>html</wp:tag_path><wp:tag_name><![CDATA[HTML]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>javascript</wp:tag_path><wp:tag_name><![CDATA[JavaScript]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>jquery</wp:tag_path><wp:tag_name><![CDATA[jQuery]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>knowledge</wp:tag_path><wp:tag_name><![CDATA[Knowledge]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>lighttpd</wp:tag_path><wp:tag_name><![CDATA[lighttpd]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>linux</wp:tag_path><wp:tag_name><![CDATA[linux]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>miscellaneous</wp:tag_path><wp:tag_name><![CDATA[Miscellaneous]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>mysql</wp:tag_path><wp:tag_name><![CDATA[mysql]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>open-source-projects</wp:tag_path><wp:tag_name><![CDATA[Open Source Projects]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>opml</wp:tag_path><wp:tag_name><![CDATA[opml]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>orm</wp:tag_path><wp:tag_name><![CDATA[ORM]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>php</wp:tag_path><wp:tag_name><![CDATA[PHP]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>plugins</wp:tag_path><wp:tag_name><![CDATA[Plugins]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>project-alumni</wp:tag_path><wp:tag_name><![CDATA[project alumni]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>pylons</wp:tag_path><wp:tag_name><![CDATA[Pylons]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>python</wp:tag_path><wp:tag_name><![CDATA[Python]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>quicklinks</wp:tag_path><wp:tag_name><![CDATA[quicklinks]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>quotes</wp:tag_path><wp:tag_name><![CDATA[Quotes]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>rails</wp:tag_path><wp:tag_name><![CDATA[Rails]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>recipe</wp:tag_path><wp:tag_name><![CDATA[recipe]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>responsible</wp:tag_path><wp:tag_name><![CDATA[responsible]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>rest</wp:tag_path><wp:tag_name><![CDATA[REST]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>security</wp:tag_path><wp:tag_name><![CDATA[Security]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>simpemc</wp:tag_path><wp:tag_name><![CDATA[simpemc]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>simplemc</wp:tag_path><wp:tag_name><![CDATA[simplemc]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>subversion</wp:tag_path><wp:tag_name><![CDATA[Subversion]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>tools</wp:tag_path><wp:tag_name><![CDATA[Tools]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>ubuntu</wp:tag_path><wp:tag_name><![CDATA[ubuntu]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>vi</wp:tag_path><wp:tag_name><![CDATA[vi]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>virtual</wp:tag_path><wp:tag_name><![CDATA[virtual]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>web</wp:tag_path><wp:tag_name><![CDATA[web]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>web-services</wp:tag_path><wp:tag_name><![CDATA[Web Services]]></wp:tag_name></wp:tag>
+	<wp:tag><wp:tag_path>wordpress</wp:tag_path><wp:tag_name><![CDATA[Wordpress]]></wp:tag_name></wp:tag>
 <item>
 <title>This time I mean it</title>
 <link>http://jasonleveille.com/2008/04/this-time-i-mean-it/</link>
@@ -1308,7 +1308,7 @@ I mentioned it before, and I also mention it throughout my sourcecode, however a
 <dc:creator><![CDATA[leveille]]></dc:creator>
 <guid isPermaLink="false">http://jasonleveille.com/?p=29</guid>
 <description></description>
-<content:encoded><![CDATA[I recently finished my first <a href="http://www.cakephp.org">CakePHP</a> application.  Not only was the application the largest I have ever written, but I had never worked with <a href="http://www.cakephp.org">CakePHP</a> before.  So, needless to say, not only did I have to overcome a learning curve, but I had to deal with all that comes with writing a large application.  Today I was contacted by the project manager regarding a bug which had surfaced in the application.  In my quest to squash the bug I discovered a script which was causing a section of the administrator to act very sluggish.  In examining exactly what was going on, I realized that there were 200+ calls being made to the database.  Ok.  That's bad.  I'd like to clarify that I was the one who wrote the original offending code.  In about 2 minutes of work I was able to bring the query count down to 2, and reduce the page response time considerably. <!--more-->
+<content:encoded><![CDATA[I recently finished my first <a href="http://www.cakephp.org">CakePHP</a> application.  Not only was the application the largest I have ever written, but I had never worked with <a href="http://www.cakephp.org">CakePHP</a> before.  So, needless to say, not only did I have to overcome a learning curve, but I had to deal with all that comes with writing a large application.  Today I was contacted by the project manager regarding a bug which had surfaced in the application.  In my quest to squash the bug I discovered a script which was causing a section of the administrator to act very pathgish.  In examining exactly what was going on, I realized that there were 200+ calls being made to the database.  Ok.  That's bad.  I'd like to clarify that I was the one who wrote the original offending code.  In about 2 minutes of work I was able to bring the query count down to 2, and reduce the page response time considerably. <!--more-->
 <h2>Always Watch Your Bindings</h2>
 On the one hand it hurts my ego to know that I could write something so bad.  On the other hand I can kind of forgive myself, as the timeline was tight, the application had so many moving parts, and the learning curve was present.  Either way, it felt really good to see such a performance improvement with such minimal effort.  Part of my problem is that early in the application I wasn't paying attention to <a href="http://bakery.cakephp.org/articles/view/bindable-behavior-control-your-model-bindings">Cake's binding of associations</a>.  Today was a good lesson in why I should always pay attention to bindings in CakePHP.]]></content:encoded>
 <excerpt:encoded><![CDATA[]]></excerpt:encoded>
@@ -2209,7 +2209,7 @@ var TIME = function(){
 In the case of the code above, milliseconds starts at null.  In the construct method a check is performed to see if milliseconds is null or not.  If it is, an <a href="http://en.wikipedia.org/wiki/XMLHttpRequest"><abbr title="xmlHttpRequest">XHR</abbr></a> request is made to time.php to pull in a timestamp (measured in milliseconds).  The first call to construct updates the time display, assigns a value to milliseconds, and sets up the <a href="http://developer.mozilla.org/en/docs/DOM:window.setInterval">setInterval</a> for TIME.construct(), at a frequency of 1000 milliseconds (1 second).  With the second call to <code>TIME.construct()</code>, because the milliseconds variable is already loaded, another <abbr title="xmlHttpRequest">XHR</abbr> request is not necessary.  Instead, all that is needed is a call to <code>TIME.update()</code>, and the construction of a new Date object.  Piece of cake.  So, in this instance, lazy initialization enhanced the application because it provided a means for checking whether or not an <abbr title="xmlHttpRequest">XHR</abbr> request should be made to obtain a timestamp, or if a timestamp already existed.
 <h2>ghost</h2>
 <blockquote>A <strong>ghost</strong> is the real object without any data. The first time you call a method the ghost loads the full data into its fields.</blockquote>
-This second example is more along the lines of those provided in the Digital Web article, however it is even more simplified. In this case, what I actually have is a combination of ghost and lazy initialization (leaning more in the direction of lazy initialization). The application in which I implemented this bit of code required most of the UI to be constructed through JavaScript. Part of the application requires the implementation of <a href="http://get.live.com/messenger/overview">Windows Live Messanger</a> for tech support purposes. This portion of the application is not visible on page load, and is only available on request. Initially I was loading the JavaScript/CSS/Image files on page load, and the application was suffering a significant performance hit as a result. I don't have exact numbers, but Windows Live Messanger has in excess of 300+k of JavaScript/CSS/Image files, and I was loading them (via requests for the resources through an iframe) on page load. As you can imagine, the rest of the application was suffering. It was sluggish and unresponsive for seconds at a time.
+This second example is more along the lines of those provided in the Digital Web article, however it is even more simplified. In this case, what I actually have is a combination of ghost and lazy initialization (leaning more in the direction of lazy initialization). The application in which I implemented this bit of code required most of the UI to be constructed through JavaScript. Part of the application requires the implementation of <a href="http://get.live.com/messenger/overview">Windows Live Messanger</a> for tech support purposes. This portion of the application is not visible on page load, and is only available on request. Initially I was loading the JavaScript/CSS/Image files on page load, and the application was suffering a significant performance hit as a result. I don't have exact numbers, but Windows Live Messanger has in excess of 300+k of JavaScript/CSS/Image files, and I was loading them (via requests for the resources through an iframe) on page load. As you can imagine, the rest of the application was suffering. It was pathgish and unresponsive for seconds at a time.
 <blockquote>Through the implementation of lazy loading (tied to a click event), I was able to do away with this initial 300+k load, and garner significant page responsiveness.</blockquote>
 On to the goodies:
 
@@ -2577,7 +2577,7 @@ My brother Corey is a k-9 officer with the Seattle Police Department in Seattle,
 <wp:meta_value>1</wp:meta_value>
 </wp:postmeta>
 <wp:postmeta>
-<wp:meta_key>_wp_old_slug</wp:meta_key>
+<wp:meta_key>_wp_old_path</wp:meta_key>
 <wp:meta_value>corey-and</wp:meta_value>
 </wp:postmeta>
 	</item>

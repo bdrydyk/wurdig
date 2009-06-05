@@ -47,7 +47,7 @@
 #                     action='view', 
 #                     year=comment.post.posted_on.strftime('%Y'), 
 #                     month=comment.post.posted_on.strftime('%m'), 
-#                     slug=comment.post.slug,
+#                     path=comment.post.path,
 #                     anchor=u"comment-" + str(comment.id)
 #                 )
 #             )
