@@ -5,6 +5,9 @@ from tw.forms.validators import DateValidator, DateConverter, TimeConverter, Inv
 import wurdig.lib.helpers as h
 #from formencode import Schema, NoDefault
 from tw.forms.validators import Schema, NoDefault, FancyValidator, ForEach
+import re
+from wurdig.model import *
+from pylons import request
 
 class UniquePath(FancyValidator):
     messages = {
@@ -40,7 +43,7 @@ class ValidTags(FancyValidator):
         'be found in the database'
     }
     def _to_python(self, values, state):
-        all_tag_ids = [tag.id for tag in Session.query(model.Tag)]
+        all_tag_ids = [tag.id for tag in Session.query(Tag)]
         for tag_id in values['tags']:
             if tag_id not in all_tag_ids:
                 raise Invalid(
@@ -100,10 +103,10 @@ class UniquePath(FancyValidator):
             raise Invalid("Path can only contain letters, numbers, and dashes", value, state)
         
         # Ensure tag path is unique
-        tag_q = Session.query(model.Tag).filter_by(path=value)
+        tag_q = Session.query(Tag).filter_by(path=value)
         if request.urlvars['action'] == 'save':
             # we're editing an existing post.
-            tag_q = tag_q.filter(model.Tag.id != int(request.urlvars['id']))
+            tag_q = tag_q.filter(Tag.id != int(request.urlvars['id']))
             
         # Check if the path exists
         path = tag_q.first()

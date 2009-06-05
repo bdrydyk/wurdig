@@ -115,19 +115,14 @@ class PostController(BaseController):
     def view(self, year, month, path):
         (year_i, month_i) = (int(year), int(month))
         
-        post_tag_table = metadata.tables['post_tag']
+        #post_tag_table = metadata.tables['post_tag']
         
-        c.post = Post.query.filter(Post.posted_on >= d.datetime(year_i, month_i, 1),
+        c.post = Post.query.filter(and_(
+            Post.posted_on >= d.datetime(year_i, month_i, 1),
             Post.posted_on <= d.datetime(year_i, month_i, calendar.monthrange(year_i, month_i)[1]),
             Post.draft == False,
-            Post.path == path)
-        c.post = meta.Session.query(model.Post).filter(
-            and_(model.Post.posted_on >= d.datetime(year_i, month_i, 1), 
-                 model.Post.posted_on <= d.datetime(year_i, month_i, calendar.monthrange(year_i, month_i)[1]),
-                 model.Post.draft == False,
-                 model.Post.path == path)
-        ).first()
-                                 
+            Post.path == path)).first()
+                         
         if c.post is None:
             abort(404)
             
@@ -163,8 +158,9 @@ class PostController(BaseController):
             post.tags.append(t)
         
         meta.Session.commit()        
-        session['flash'] = 'Post successfully added.'
-        session.save()
+        
+        #session['flash'] = 'Post successfully added.'
+        #session.save()
         # Issue an HTTP redirect
         if post.posted_on is not None:
             return redirect_to(controller='post', 
@@ -202,7 +198,7 @@ class PostController(BaseController):
     
     @authorize(ValidAuthKitUser())
     @restrict('POST')
-    @validate(form=post_form, error_handler="new")
+    @validate(form=post_form, error_handler="edit")
     def save(self, id=None):
         if id is None:
             abort(404)
