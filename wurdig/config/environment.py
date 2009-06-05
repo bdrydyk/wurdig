@@ -43,16 +43,17 @@ def load_environment(global_conf, app_conf):
         imports=['from webhelpers.html import escape'])
 
     # Setup Elixir
-    # note: in this example, I'm leaving connect_args empty, fill in what is right
-    # for your app.
-    config['pylons.app_globals'].sa_engine = \
-        engine_from_config(config, 'sqlalchemy.',
-                           connect_args={}, pool_recycle=90)
-    elixir.bind = config['pylons.app_globals'].sa_engine
-    model.metadata.bind = config['pylons.app_globals'].sa_engine
-    elixir.setup_all()
 
-    
+    engine = engine_from_config(config, 'sqlalchemy.')
+    if model.elixir.options_defaults.get('autoload'):
+        # Reflected tables
+        model.elixir.bind = engine
+        model.metadata.bind = engine
+        model.elixir.setup_all()
+    else:
+        # Non-reflected tables
+        model.init_model(engine)
+
 
     # CONFIGURATION OPTIONS HERE (note: all config options will override
     # any Pylons config options)

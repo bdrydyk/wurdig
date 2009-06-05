@@ -5,6 +5,8 @@ import logging
 import re
 import webhelpers.paginate as paginate
 import wurdig.lib.helpers as h
+
+
 import wurdig.model as model
 import wurdig.model.meta as meta
 
@@ -19,75 +21,11 @@ from sqlalchemy.sql import and_, delete
 from webhelpers.feedgenerator import Atom1Feed
 from wurdig.lib.base import BaseController, Cleanup, ConstructSlug, render
 
+from wurdig.model.twforms import *
+
 log = logging.getLogger(__name__)
 
 
-class UniqueSlug(formencode.FancyValidator):
-    messages = {
-        'invalid': 'Slug must be unique'
-    }
-    def _to_python(self, value, state):
-        # Ensure we have a valid string
-        value = formencode.validators.UnicodeString(max=100).to_python(value, state)
-        # validate that slug only contains letters, numbers, and dashes
-        result = re.compile("[^\w-]").search(value)
-        if result:
-            raise formencode.Invalid("Slug can only contain letters, numbers, and dashes", value, state)
-        
-        # Ensure slug is unique
-        post_q = meta.Session.query(model.Post).filter_by(slug=value)
-        if request.urlvars['action'] == 'save':
-            # we're editing an existing post.
-            post_q = post_q.filter(model.Post.id != int(request.urlvars['id']))
-            
-        # Check if the slug exists
-        slug = post_q.first()
-        if slug is not None:
-            raise formencode.Invalid(
-                self.message('invalid', state),
-                value, state)
-        
-        return value
-    
-class ValidTags(formencode.FancyValidator):
-    messages = {
-        'invalid': 'One ore more selected tags could not ' +
-        'be found in the database'
-    }
-    def _to_python(self, values, state):
-        all_tag_ids = [tag.id for tag in meta.Session.query(model.Tag)]
-        for tag_id in values['tags']:
-            if tag_id not in all_tag_ids:
-                raise formencode.Invalid(
-                    self.message('invalid', state),
-                    values, state
-                )
-        return values
-
-class NewPostForm(formencode.Schema):
-    pre_validators = [ConstructSlug(), Cleanup()]
-    allow_extra_fields = True
-    filter_extra_fields = True
-    title = formencode.validators.UnicodeString(
-        not_empty=True,
-        max=100, 
-        messages={
-            'empty':'Enter a post title'
-        },
-        strip=True
-    )
-    slug = UniqueSlug(not_empty=True, max=100, strip=True)
-    content = formencode.validators.UnicodeString(
-        not_empty=True,
-        messages={
-            'empty':'Enter some post content.'
-        },
-        strip=True
-    )
-    draft = formencode.validators.StringBool(if_missing=False)
-    comments_allowed = formencode.validators.StringBool(if_missing=False)
-    tags = formencode.foreach.ForEach(formencode.validators.Int())
-    chained_validators = [ValidTags()]
 
 class PostController(BaseController):
     
@@ -109,8 +47,8 @@ class PostController(BaseController):
         
     @beaker_cache(expire=28800, type='memory', cache_key='post_feeds')
     def feeds(self):
-        
-        posts_q = meta.Session.query(model.Post).filter(
+        item_tag_table = metadata.tables['item_tag']
+        posts_q = meta.Session.query(Post).filter(
             model.Post.draft == False
         ).order_by([model.Post.posted_on.desc()]).limit(10)
         
@@ -173,6 +111,9 @@ class PostController(BaseController):
     
     def view(self, year, month, slug):
         (year_i, month_i) = (int(year), int(month))
+        
+        post_tag_table = metadata.tables['post_tag']
+        
         c.post = meta.Session.query(model.Post).filter(
             and_(model.Post.posted_on >= d.datetime(year_i, month_i, 1), 
                  model.Post.posted_on <= d.datetime(year_i, month_i, calendar.monthrange(year_i, month_i)[1]),

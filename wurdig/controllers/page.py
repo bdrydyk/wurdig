@@ -3,8 +3,11 @@ import formencode
 import logging
 import re
 import wurdig.lib.helpers as h
+
 import wurdig.model as model
 import wurdig.model.meta as meta
+
+
 import webhelpers.paginate as paginate
 
 from authkit.authorize.pylons_adaptors import authorize
@@ -17,63 +20,19 @@ from pylons.decorators.rest import restrict
 from sqlalchemy.sql import and_, delete
 from wurdig.lib.base import BaseController, Cleanup, ConstructSlug, render
 
+from tw.mods.pylonshf import validate
+from wurdig.model.twforms import *
+from pprint import pformat
+
 log = logging.getLogger(__name__)
     
-class UniqueSlug(formencode.FancyValidator):
-    messages = {
-        'invalid': 'Slug must be unique'
-    }
-    def _to_python(self, value, state):
-        # Ensure we have a valid string
-        value = formencode.validators.UnicodeString(max=30).to_python(value, state)
-        # validate that slug only contains letters, numbers, and dashes
-        result = re.compile("[^\w-]").search(value)
-        if result:
-            raise formencode.Invalid("Slug can only contain letters, numbers, and dashes", value, state)
-        
-        # Ensure slug is unique
-        page_q = meta.Session.query(model.Page).filter_by(slug=value)
-        if request.urlvars['action'] == 'save':
-            # we're editing an existing post.
-            page_q = page_q.filter(model.Page.id != int(request.urlvars['id']))
-            
-        # Check if the slug exists
-        slug = page_q.first()
-        if slug is not None:
-            raise formencode.Invalid(
-                self.message('invalid', state),
-                value, state)
-        
-        return value
-
-
-class NewPageForm(formencode.Schema):
-    pre_validators = [ConstructSlug(), Cleanup()]
-    allow_extra_fields = True
-    filter_extra_fields = True
-    title = formencode.validators.UnicodeString(
-        not_empty=True,
-        max=100, 
-        messages={
-            'empty':'Enter a page title'
-        },
-        strip=True
-    )
-    slug = UniqueSlug(not_empty=True, max=100, strip=True)
-    content = formencode.validators.UnicodeString(
-        not_empty=True,
-        messages={
-            'empty':'Enter some post content.'
-        },
-        strip=True
-    )
 
 class PageController(BaseController):
     
     def view(self, slug=None):
         if slug is None:
             abort(404)
-        page_q = meta.Session.query(model.Page)
+        page_q = Session.query(model.Page)
         c.page = page_q.filter_by(slug=slug).first()
         if c.page is None:
             abort(404)

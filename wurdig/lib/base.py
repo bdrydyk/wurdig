@@ -8,7 +8,6 @@ import wurdig.lib.helpers as h
 
 from pylons.controllers import WSGIController
 from pylons.templating import render_mako as render
-from wurdig.model import meta
 from wurdig.model import Session
 import wurdig.model as model
 

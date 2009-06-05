@@ -1,6 +1,6 @@
 import helpers as h
-from wurdig import model
-from wurdig.model import meta
+from wurdig.model import *
+from sqlalchemy import desc
 
 __all__ = ['comment_filter', 'recent_comments']
 
@@ -8,9 +8,11 @@ def comment_filter(comment):
     return h.sanitize_html(comment)
 
 def recent_comments():
-    comments_q = meta.Session.query(model.Comment).filter(model.Comment.approved==True)
-    comments_q = comments_q.order_by(model.comments_table.c.created_on.desc())
-    recent_comments = comments_q.join(model.Post).limit(4)
+    comments_q = Comment.query.filter_by(approved=True)
+    comments_q.order_by(desc(Comment.created_on)).all()
+    recent_comments = comments_q.limit(4)
+    #recent_comments = comments_q.filter(Comment.post = Post).limit(4)
+    
     if recent_comments is None:
         return ''
     else:
@@ -39,13 +41,13 @@ def recent_comments():
             content = h.truncate(h.strip_tags(comment.content), 80)
                              
             link = h.link_to(
-                comment.posts.title,
+                comment.post.title,
                 h.url_for(
                     controller='post', 
                     action='view', 
-                    year=comment.posts.posted_on.strftime('%Y'), 
-                    month=comment.posts.posted_on.strftime('%m'), 
-                    slug=comment.posts.slug,
+                    year=comment.post.posted_on.strftime('%Y'), 
+                    month=comment.post.posted_on.strftime('%m'), 
+                    slug=comment.post.slug,
                     anchor=u"comment-" + str(comment.id)
                 )
             )
