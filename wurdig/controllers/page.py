@@ -24,6 +24,9 @@ from tw.mods.pylonshf import validate
 from wurdig.model.twforms import *
 from pprint import pformat
 
+from authkit.permissions import ValidAuthKitUser
+from authkit.authorize.pylons_adaptors import authorize
+
 log = logging.getLogger(__name__)
     
 
@@ -40,11 +43,11 @@ class PageController(BaseController):
             return render('/derived/page/search.html')
         return render('/derived/page/view.html')
 
-    @h.auth.authorize(h.auth.is_valid_user)
+    @authorize(ValidAuthKitUser())
     def new(self):
         return render('/derived/page/new.html')
     
-    @h.auth.authorize(h.auth.is_valid_user)
+    @authorize(ValidAuthKitUser())
     @restrict('POST')
     @validate(schema=NewPageForm(), form='new')
     def create(self):
@@ -64,7 +67,7 @@ class PageController(BaseController):
                            action='view', 
                            slug=page.slug)
     
-    @h.auth.authorize(h.auth.is_valid_user)
+    @authorize(ValidAuthKitUser())
     def edit(self, id=None):
         if id is None:
             abort(404)
@@ -80,7 +83,7 @@ class PageController(BaseController):
         }
         return htmlfill.render(render('/derived/page/edit.html'), values)
     
-    @h.auth.authorize(h.auth.is_valid_user)
+    @authorize(ValidAuthKitUser())
     @restrict('POST')
     @validate(schema=NewPageForm(), form='edit')
     def save(self, id=None):
@@ -103,7 +106,7 @@ class PageController(BaseController):
                            action='view', 
                            slug=page.slug)
     
-    @h.auth.authorize(h.auth.is_valid_user)
+    @authorize(ValidAuthKitUser())
     def list(self):
         pages_q = meta.Session.query(model.Page)
         c.paginator = paginate.Page(
@@ -115,7 +118,7 @@ class PageController(BaseController):
         )
         return render('/derived/page/list.html')
     
-    @h.auth.authorize(h.auth.is_valid_user)
+    @authorize(ValidAuthKitUser())
     def delete_confirm(self, id=None):
         if id is None:
             abort(404)
@@ -125,7 +128,7 @@ class PageController(BaseController):
             abort(404)
         return render('/derived/page/delete_confirm.html')
 
-    @h.auth.authorize(h.auth.is_valid_user)
+    @authorize(ValidAuthKitUser())
     @restrict('POST')
     def delete(self, id=None):
         id = request.params.getone('id')

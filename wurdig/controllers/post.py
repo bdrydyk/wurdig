@@ -24,6 +24,9 @@ from wurdig.lib.base import BaseController, Cleanup, ConstructSlug, render
 
 from wurdig.model.twforms import *
 
+from authkit.permissions import ValidAuthKitUser
+from authkit.authorize.pylons_adaptors import authorize
+
 log = logging.getLogger(__name__)
 
 
@@ -126,13 +129,13 @@ class PostController(BaseController):
             
         return render('/derived/post/view.html')
     
-    @h.auth.authorize(h.auth.is_valid_user)
+    @authorize(ValidAuthKitUser())
     def new(self):
         tag_q = meta.Session.query(model.Tag)
         c.available_tags = [(tag.id, tag.name) for tag in tag_q]
         return render('/derived/post/new.html')
     
-    @h.auth.authorize(h.auth.is_valid_user)
+    @authorize(ValidAuthKitUser())
     @restrict('POST')
     @validate(schema=NewPostForm(), form='new')
     def create(self):
@@ -168,7 +171,7 @@ class PostController(BaseController):
         else:
             return redirect_to(controller='post', action='list')
     
-    @h.auth.authorize(h.auth.is_valid_user)
+    @authorize(ValidAuthKitUser())
     def edit(self, id=None):
         if id is None:
             abort(404)
@@ -193,7 +196,7 @@ class PostController(BaseController):
         }
         return htmlfill.render(render('/derived/post/edit.html'), values)
     
-    @h.auth.authorize(h.auth.is_valid_user)
+    @authorize(ValidAuthKitUser())
     @restrict('POST')
     @validate(schema=NewPostForm(), form='edit')
     def save(self, id=None):
@@ -243,7 +246,7 @@ class PostController(BaseController):
         else:
             return redirect_to(controller='post', action='list')
     
-    @h.auth.authorize(h.auth.is_valid_user)
+    @authorize(ValidAuthKitUser())
     def list(self):
         posts_q = meta.Session.query(model.Post).order_by([model.Post.draft.desc(),model.Post.posted_on.desc()])
         c.paginator = paginate.Page(
@@ -255,9 +258,7 @@ class PostController(BaseController):
         )
         return render('/derived/post/list.html')
     
-    @h.auth.authorize(h.auth.is_valid_user)
-    
-    
+    @authorize(ValidAuthKitUser())
     def delete_confirm(self, id=None):
         if id is None:
             abort(404)
@@ -267,7 +268,7 @@ class PostController(BaseController):
             abort(404)
         return render('/derived/post/delete_confirm.html')
 
-    @h.auth.authorize(h.auth.is_valid_user)
+    @authorize(ValidAuthKitUser())
     @restrict('POST')
     def delete(self, id=None):
         id = request.params.getone('id')
