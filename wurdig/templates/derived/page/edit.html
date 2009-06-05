@@ -1,10 +1,11 @@
-<%inherit file="/base/admin.html"/>
-<%namespace file="fields.html" name="fields" import="*"/>
+<%inherit file="/base/master.html"/>
+
+<%!
+    from wurdig.model.twforms import page_form
+%>
+
 
 <%def name="title()">${parent.title()} &gt; Edit Page</%def>
 <h2>Edit Page</h2>
 
-${h.form(h.url_for(action='save', controller='page', id=request.urlvars['id']), method='post')}
-    ${fields.body()}
-    ${h.submit('edit', 'Submit Edits')}
-${h.end_form()}
+${h.literal(page_form(action=h.url_for(controller='page', action='save')))}

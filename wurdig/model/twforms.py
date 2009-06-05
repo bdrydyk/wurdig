@@ -46,7 +46,6 @@ class ConstructPath(FancyValidator):
         return value
 
 
-
 class UniqueName(FancyValidator):
     messages = {
         'invalid': 'Tag name must be unique'
@@ -150,101 +149,46 @@ class NewPageForm(Schema):
     title = UnicodeString(
         not_empty=True,
         max=100, 
-        messages={
-            'empty':'Enter a page title'
-        },
+        messages={'empty':'Enter a page title'},
         strip=True
     )
     path = UniquePath(not_empty=True, max=100, strip=True)
     content = UnicodeString(
         not_empty=True,
-        messages={
-            'empty':'Enter some post content.'
-        },
+        messages={'empty':'Enter some post content.'},
         strip=True)
+
+page_form = twf.TableForm('page_form', action='save', validator = NewPageForm, children=[
+    twf.HiddenField('id'),
+    twf.TextField('title'),
+    twf.TextField('path'),
+    #twf.TextField('tags'),
+    #twf.Spacer(),
+    #twf.TextField('year', size=4, label_text='Year of Fuck'),
+    #twf.CalendarDatePicker('release_date'),
+    #twf.Label(text='Hello', suppress_label=True),
+    #twf.CheckBox('draft'),
+    twf.TextArea('content'),
+
+])
         
 class NewPostForm(Schema):
-    #    pre_validators = [ConstructPath(), Cleanup()]
     allow_extra_fields = True
     filter_extra_fields = True
     title = UnicodeString(
         not_empty=True,
         max=100, 
-        messages={
-            'empty':'Enter a post title'
-        },
-        strip=True
-    )
+        messages={'empty':'Enter a post title'},
+        strip=True)
     path = UniquePath(not_empty=True, max=100, strip=True)
     content = UnicodeString(
         not_empty=True,
-        messages={
-            'empty':'Enter some post content.'
-        },
-        strip=True
-    )
+        messages={'empty':'Enter some post content.'},
+        strip=True)
     draft = StringBool(if_missing=False)
     comments_allowed = StringBool(if_missing=False)
     #tags = ForEach(Int())
     #chained_validators = [ValidTags()]
-class NewTagForm(Schema):
-    pre_validators = [ConstructPath()]
-    allow_extra_fields = True
-    filter_extra_fields = True
-    name = UniqueName(not_empty=True, max=30, strip=True)
-    path = UniquePath(not_empty=True, max=30, strip=True)
-class NewCommentForm(Schema):
-    allow_extra_fields = True
-    filter_extra_fields = True
-    name = UnicodeString(not_empty=True, max=100, strip=True)
-    email = Email(not_empty=True, max=50, strip=True)
-    url = URL(not_empty=False, check_exists=True, max=125, strip=True)
-    content = UnicodeString(
-        not_empty=True,
-        strip=True,
-        messages={
-            'empty':'Please enter a comment.'
-        }
-    )
-    approved = StringBool(if_missing=False)
-
-    if not h.auth.authorized(h.auth.is_valid_user):
-        if h.wurdig_use_akismet():
-            chained_validators = [AkismetSpamCheck()]
-        else:
-            wurdig_comment_question = PrimitiveSpamCheck(not_empty=True, max=10, strip=True)
-
-
-
-
-
-
-movie_form = twf.TableForm('movie_form', action='save', children=[
-    twf.HiddenField('id'),
-    twf.TextField('title'),
-    twf.Spacer(),
-    twf.TextField('year', size=4, label_text='Year of Fuck'),
-    twf.CalendarDatePicker('release_date'),
-    twf.SingleSelectField('genera', options=['', 'Action', 'Comedy', 'Other']),
-    twf.Label(text='Hello', suppress_label=True),
-    twf.TextArea('description'),
-])
-
-
-page_form = twf.TableForm('page_form', action='save', validator = NewPageForm, children=[
-    twf.HiddenField('id'),
-    twf.TextField('title', validator=twf.validators.NotEmpty),
-    twf.Spacer(),
-    twf.TextField('year', size=4, label_text='Year of Fuck', validator=Int(not_empty=True)),
-    twf.CalendarDatePicker('release_date'),
-    twf.SingleSelectField('genera', options=['', 'Action', 'Comedy', 'Other']),
-    twf.Label(text='Hello', suppress_label=True),
-    twf.TextArea('description', validator= UnicodeString(not_empty=True)),
-
-])
-
-#${post_form(action=h.url_for(controller='tutorial', action='save'))}
-
 post_form = twf.TableForm('page_form', action='save', validator = NewPostForm, children=[
     twf.HiddenField('id'),
     twf.TextField('title'),
@@ -258,19 +202,52 @@ post_form = twf.TableForm('page_form', action='save', validator = NewPostForm, c
     twf.TextArea('content'),
 
 ])
-
+    
+class NewTagForm(Schema):
+    pre_validators = [ConstructPath()]
+    allow_extra_fields = True
+    filter_extra_fields = True
+    name = UniqueName(not_empty=True, max=30, strip=True)
+    path = UniquePath(not_empty=True, max=30, strip=True)
+    
+    
 tag_form = twf.TableForm('page_form', action='save', validator = NewTagForm, children=[
     twf.HiddenField('id'),
     twf.TextField('name'),
     twf.Spacer(),
     twf.TextField('path', size=4, label_text='Year of Fuck')
 ])
-
+    
+class NewCommentForm(Schema):
+    allow_extra_fields = True
+    filter_extra_fields = True
+    name = UnicodeString(not_empty=True, max=100, strip=True)
+    email = Email(not_empty=True, max=50, strip=True)
+    url = URL(not_empty=False, check_exists=True, max=125, strip=True)
+    content = UnicodeString(
+        not_empty=True,
+        strip=True,
+        messages={'empty':'Please enter a comment.'})
+    approved = StringBool(if_missing=False)
+    if not h.auth.authorized(h.auth.is_valid_user):
+        if h.wurdig_use_akismet():
+            chained_validators = [AkismetSpamCheck()]
+        else:
+            wurdig_comment_question = PrimitiveSpamCheck(not_empty=True, max=10, strip=True)
+            
 comment_form = twf.TableForm('page_form', action='save', validator = NewCommentForm, children=[
     twf.HiddenField('id'),
     twf.TextField('name'),
     twf.TextField('email'),
+    twf.TextField('url'),
     twf.Spacer(),
-    twf.TextArea('content'),
+    twf.TextArea('content'),])
 
-])
+
+
+#${post_form(action=h.url_for(controller='tutorial', action='save'))}
+
+
+
+
+
