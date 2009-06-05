@@ -3,6 +3,8 @@ import formencode
 import logging
 import webhelpers.paginate as paginate
 import wurdig.lib.helpers as h
+
+import wurdig.model as model
 import wurdig.model.meta as meta
 
 from formencode import htmlfill
@@ -19,63 +21,6 @@ from wurdig.lib.base import BaseController, render
 
 log = logging.getLogger(__name__)
     
-class AkismetSpamCheck(formencode.FancyValidator):
-    messages = {
-        'invalid-akismet': 'Your comment has been identified as spam.  Are you a spammer?'
-    }
-    def _to_python(self, values, state):
-        # we're in the administrator
-        if request.urlvars['action'] == 'save':
-            return values
-        
-        if h.wurdig_use_akismet():
-            from wurdig.lib.akismet import Akismet
-            # Thanks for the help from http://soyrex.com/blog/akismet-django-stop-comment-spam/
-            a = Akismet(h.wurdig_get_akismet_key(), wurdig_url=request.server_name)
-            akismet_data = {}
-            akismet_data['user_ip'] = request.remote_addr
-            akismet_data['user_agent'] = request.user_agent
-            akismet_data['comment_author'] = values['name']
-            akismet_data['comment_author_email'] = values['email']
-            akismet_data['comment_author_url'] = values['url']
-            akismet_data['comment_type'] = 'comment'
-            spam = a.comment_check(values['content'], akismet_data)
-            if spam:
-                raise formencode.Invalid(
-                    self.message('invalid-akismet', state),
-                    values, state
-                )
-        return values
-    
-class PrimitiveSpamCheck(formencode.FancyValidator):
-    def _to_python(self, value, state):        
-        # Ensure we have a valid string
-        value = formencode.validators.UnicodeString(max=10).to_python(value, state)
-        eq = h.wurdig_spamword().lower() == value.lower()
-        if not eq:
-            raise formencode.Invalid("Double check your answer to the spam prevention question and resubmit.", value, state)
-        return value
-
-class NewCommentForm(formencode.Schema):
-    allow_extra_fields = True
-    filter_extra_fields = True
-    name = formencode.validators.UnicodeString(not_empty=True, max=100, strip=True)
-    email = formencode.validators.Email(not_empty=True, max=50, strip=True)
-    url = formencode.validators.URL(not_empty=False, check_exists=True, max=125, strip=True)
-    content = formencode.validators.UnicodeString(
-        not_empty=True,
-        strip=True,
-        messages={
-            'empty':'Please enter a comment.'
-        }
-    )
-    approved = formencode.validators.StringBool(if_missing=False)
-    
-    if not h.auth.authorized(h.auth.is_valid_user):
-        if h.wurdig_use_akismet():
-            chained_validators = [AkismetSpamCheck()]
-        else:
-            wurdig_comment_question = PrimitiveSpamCheck(not_empty=True, max=10, strip=True)
 
 class CommentController(BaseController):
     

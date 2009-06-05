@@ -2,8 +2,11 @@ import datetime as d
 import formencode
 import logging
 import re
+
 import wurdig.model as model
 import wurdig.model.meta as meta
+
+
 import wurdig.lib.helpers as h
 import webhelpers.paginate as paginate
 
@@ -21,73 +24,6 @@ from wurdig.lib.base import BaseController, render
 
 log = logging.getLogger(__name__)
 
-class ConstructSlug(formencode.FancyValidator):
-    def _to_python(self, value, state):
-        if value['slug'] in ['', u'', None]:
-            tag_name = value['name'].lower()
-            value['slug'] = re.compile(r'[^\w-]+', re.U).sub('-', tag_name).strip('-')
-        return value
-
-class UniqueName(formencode.FancyValidator):
-    messages = {
-        'invalid': 'Tag name must be unique'
-    }
-    def _to_python(self, value, state):
-        # Ensure we have a valid string
-        value = formencode.validators.UnicodeString(max=30).to_python(value, state)
-        # validate that tag only contains letters, numbers, and spaces
-        result = re.compile("[^a-zA-Z0-9 ]").search(value)
-        if result:
-            raise formencode.Invalid("Tag name can only contain letters, numbers, and spaces", value, state)
-        
-        # Ensure tag name is unique
-        tag_q = meta.Session.query(model.Tag).filter_by(name=value)
-        if request.urlvars['action'] == 'save':
-            # we're editing an existing tag
-            tag_q = tag_q.filter(model.Tag.id != int(request.urlvars['id']))
-            
-        # Check if the tag name exists
-        name = tag_q.first()
-        if name is not None:
-            raise formencode.Invalid(
-                self.message('invalid', state),
-                value, state)
-        
-        return value
-    
-class UniqueSlug(formencode.FancyValidator):
-    messages = {
-        'invalid': 'Tag slug must be unique'
-    }
-    def _to_python(self, value, state):
-        # Ensure we have a valid string
-        value = formencode.validators.UnicodeString(max=30).to_python(value, state)
-        # validate that slug only contains letters, numbers, and dashes
-        result = re.compile("[^\w-]").search(value)
-        if result:
-            raise formencode.Invalid("Slug can only contain letters, numbers, and dashes", value, state)
-        
-        # Ensure tag slug is unique
-        tag_q = meta.Session.query(model.Tag).filter_by(slug=value)
-        if request.urlvars['action'] == 'save':
-            # we're editing an existing post.
-            tag_q = tag_q.filter(model.Tag.id != int(request.urlvars['id']))
-            
-        # Check if the slug exists
-        slug = tag_q.first()
-        if slug is not None:
-            raise formencode.Invalid(
-                self.message('invalid', state),
-                value, state)
-        
-        return value
-
-class NewTagForm(formencode.Schema):
-    pre_validators = [ConstructSlug()]
-    allow_extra_fields = True
-    filter_extra_fields = True
-    name = UniqueName(not_empty=True, max=30, strip=True)
-    slug = UniqueSlug(not_empty=True, max=30, strip=True)
 
 class TagController(BaseController):
 

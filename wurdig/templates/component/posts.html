@@ -1,6 +1,7 @@
 <%def name="tag_list(tags)">
     % if len(tags):
-        ${h.literal(h.post_tags(tags))}
+       ## ${h.literal(h.post.tags)}
+       fart!
     % endif
 </%def>
 
@@ -24,17 +25,10 @@
     % endif
 </%def>
 
-
-
-
-
-
-<div class="entry entry-1">
-
 <%def name="display_post(post)">
 
 
-
+<div class="entry entry-1">
 
 </div>
 <div class="entrytitle">

@@ -1,4 +1,14 @@
-<div class="field required">
+
+<%!
+    from wurdig.twforms import post_form
+%>
+
+
+${post_form(action=h.url_for(controller='post', action='save'))}
+
+
+
+<!-- <div class="field required">
     <label for="title">Title</label>
     ${h.text('title')}
 </div>
@@ -33,4 +43,4 @@
             <input type="checkbox" name="tags" value="${tag[0]}">
         </div>
     % endfor
-</div>
+</div> -->

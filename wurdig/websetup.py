@@ -3,36 +3,59 @@ import logging
 import os.path
 import datetime
 
-
 from wurdig.config.environment import load_environment
 import wurdig.config as config
 from authkit.users.sqlalchemy_driver import UsersFromDatabase
 from authkit.users import md5
-from wurdig.model import *
-from wurdig.users.elixir_driver import UsersFromDatabase
+
 from sqlalchemy import engine_from_config
+
+from wurdig import model as model
+
+
+
 log = logging.getLogger(__name__)
-from wurdig import model
 
 def setup_app(command, conf, vars):
     """Place any commands to setup wurdig here"""
     load_environment(conf.global_conf, conf.local_conf)
-    filename = os.path.split(conf.filename)[-1]
+
+    #model.metadata.bind = meta.engine
+    # model.setup_all()
+    # model.create_all()
+    
+    model.metadata.drop_all(checkfirst=True)
+    #model.metadata.setup_all()
+    model.metadata.create_all(checkfirst=True)
     
     
     # log.info("Adding the AuthKit model...")
     # users = UsersFromDatabase(model)
-    # users = users.update_model(users)
-    # 
-    # 
-    # 
-    # # Create the tables if they aren't there already
-    # model.metadata.create_all(checkfirst=True)
-    # 
+    
+    # filename = os.path.split(conf.filename)[-1]
+    # if filename == 'test.ini':
+    #     # Permanently drop any existing tables
+    #     log.info("Dropping existing tables...")
+    #     model.metadata.drop_all(checkfirst=True)
+        
+    # Create the tables if they aren't there already
+
     # log.info("Adding roles and uses...")
     # users.role_create("admin")
     # users.user_create("admin", password=md5("admin"))
     # users.user_add_role("admin", role="admin")
+    
+    
+    log.info("Adding tags...")
+
+    pyylons = model.Tag(name=u"Pylons", slug='pylons')
+    science = model.Tag(name=u"Science", slug='science')
+    arduino = model.Tag(name=u"Arduino", slug='adruino')
+    maxmsp = model.Tag(name=u"Max/MSP", slug='max')
+    movement = model.Tag(name=u"Movement", slug='movement')
+    godel = model.Tag(name=u"godel", slug='godel')
+    
+    
     
     log.info("Adding about page...")
     page1 = model.Page()
@@ -52,16 +75,15 @@ def setup_app(command, conf, vars):
     <div class="wurdig-caption aligncenter" style="width: 440px;"><a href="http://www.flickr.com/photos/leveilles/3273777769/"><img title="My Office" src="http://farm4.static.flickr.com/3368/3273777769_be393f175a_b.jpg" alt="Office Image 1" width="430" height="287"></a><p class="wurdig-caption-text">Office Image 1</p></div>
     <div class="wurdig-caption aligncenter" style="width: 440px;"><a href="http://www.flickr.com/photos/leveilles/3274596830/in/photostream/"><img title="Office Image 2" src="http://farm4.static.flickr.com/3300/3274596830_ac344872d7_b.jpg" alt="Office Image 2" width="430" height="287"></a><p class="wurdig-caption-text">Office Image 2</p></div>
     """
-    Session.add(page1)
-    Session.flush()
+    
     
     log.info("Adding teach page...")
     page2 = model.Page()
     page2.title = u'My life as a teacher'
     page2.slug = u'teaching'
     page2.content = u'<p>I am often asked about my old teaching material (which used to be housed at http://www.my-classes.org - <a href="http://web.archive.org/web/20071216031655/http://www.my-classes.org/">wayback</a>).  <a href="http://jasonleveille.com/teacher/">My old lessons</a> are still available (I can\'t say how relevant they still are though!).  Let me know if you have any questions.</p>'
-    Session.add(page2)
-    Session.flush()
+    #model.Session.add(page2)
+    #model.Session.flush()
     
     log.info("Adding comment styleguide page...")
     styleguide = model.Page()
@@ -74,8 +96,8 @@ def setup_app(command, conf, vars):
         <li>Links will automatically be linked for you if not wrapped in anchor tag.</li><li>&lt;a href=&quot;&quot title=&quot;&quot&gt;link&lt;/a&gt;</li>
     </ul>
     """
-    Session.add(styleguide)
-    Session.flush()
+    #model.Session.add(styleguide)
+    #model.Session.flush()
     
     log.info("Adding search page...")
     search = model.Page()
@@ -93,50 +115,54 @@ def setup_app(command, conf, vars):
         <script type="text/javascript" src="http://www.google.com/afsonline/show_afs_search.js">
     </script>
     """
-    Session.add(search)
-    Session.flush()
+    #model.Session.add(search)
+    #model.Session.flush()
     
     log.info("Adding first post...")
     post1 = model.Post()
     post1.title = u'First test post'
     post1.slug = u'first-test-post'
+    post1.tags = [pyylons, science, godel]
     post1.content = u'<p>This is the first test post</p>'
     post1.created_on = datetime.datetime(2008, 3, 17, 12, 30, 45)
-    Session.add(post1)
-    Session.flush()
+    #model.Session.add(post1)
+    #model.Session.flush()
     
     log.info("Adding fifth post...")
     post5 = model.Post()
     post5.title = u'Fifth test post'
     post5.slug = u'fifth-test-post'
     post5.content = u'<p>This is the fifth test post</p>'
+    post5.tags = [pyylons, science, godel]
     post5.created_on = datetime.datetime(2008, 3, 17, 12, 30, 45)
     post5.draft = False
     post5.posted_on = datetime.datetime(2008, 3, 18, 12, 30, 45)
-    Session.add(post5)
-    Session.flush()
+    #model.Session.add(post5)
+    #model.Session.flush()
     
     log.info("Adding second post...")
     post2 = model.Post()
     post2.title = u'Second test post'
     post2.slug = u'second-test-post'
     post2.content = u'<p>This is the second test post</p>'
+    post2.tags = [pyylons, science, godel]
     post2.created_on = datetime.datetime(2009, 3, 24, 12, 30, 45)
     post2.draft = False
     post2.posted_on = datetime.datetime(2009, 3, 24, 12, 30, 45)
-    Session.add(post2)
-    Session.flush()
+    #model.Session.add(post2)
+    #model.Session.flush()
     
     log.info("Adding third post...")
     post3 = model.Post()
     post3.title = u'Third test post'
     post3.slug = u'third-test-post'
     post3.content = u'<p>This is the third test post</p>'
+    post3.tags = [pyylons, science, godel]
     post3.created_on = datetime.datetime(2009, 3, 25, 12, 30, 45)
     post3.draft = False
     post3.posted_on = datetime.datetime(2009, 3, 25, 12, 30, 45)
-    Session.add(post3)
-    Session.flush()
+    #model.Session.add(post3)
+    #model.Session.flush()
     
     log.info("Adding fourth post...")
     post4 = model.Post()
@@ -146,8 +172,8 @@ def setup_app(command, conf, vars):
     post4.created_on = datetime.datetime(2009, 4, 5, 12, 30, 45)
     post4.draft = False
     post4.posted_on = datetime.datetime(2009, 4, 5, 12, 30, 45)
-    Session.add(post4)
-    Session.flush()
+    #model.Session.add(post4)
+    #model.Session.flush()
     
     log.info("Adding second post comment...")
     comment1 = model.Comment()
@@ -156,8 +182,8 @@ def setup_app(command, conf, vars):
     comment1.name = u'Responsible Web'
     comment1.email = u'nomail@gmail.com'
     comment1.url = u'http://responsibleweb.com'
-    Session.add(comment1)
-    Session.flush()
+    #model.Session.add(comment1)
+    #model.Session.flush()
     
     log.info("Adding second post comment...")
     comment2 = model.Comment()
@@ -167,36 +193,10 @@ def setup_app(command, conf, vars):
     comment2.email = u'nomail@gmail.com'
     comment2.url = u'http://responsibleweb.com'
     comment2.approved = True
-    Session.add(comment2)
-    Session.flush()
+    #model.Session.add(comment2)
+    #model.Session.flush()
     
-    log.info("Adding first tag...")
-    tag1 = model.Tag()
-    tag1.name = u'Pylons'
-    tag1.slug = u'pylons'
-    Session.add(tag1)
-    Session.flush()
+
     
-    log.info("Adding second tag...")
-    tag2 = model.Tag()
-    tag2.name = u'Python'
-    tag2.slug = u'python'
-    Session.add(tag2)
-    Session.flush()
-    
-    log.info("Assigning tags...")
-    post_x = Session.query(Post)
-    post_y = post_x.get(int(2))
-    post_z = post_x.get(int(3))
-    tag_x = Session.query(Tag)
-    tag_y = tag_x.filter_by(name=u'Python').first()
-    tag_z = tag_x.filter_by(name=u'Pylons').first()
-    post_y.tags.append(tag_y)
-    post_y.tags.append(tag_z)
-    post_z.tags.append(tag_z)
-    Session.add(post_y)
-    Session.add(post_z)
-    Session.flush()
-    
-    Session.commit()
+    model.Session.commit()
     log.info('Successfully set up.')
